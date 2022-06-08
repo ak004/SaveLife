@@ -1,0 +1,244 @@
+<%- include('header') %>
+<div class="ibox float-e-margins">
+    <div class="ibox-content text-center p-md">
+
+    <h1>Chartiy Registration</h1>
+    </div>
+
+
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-12">
+              <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
+                  <form id="register_form" method="POST" action="/charty_item">
+                    <div class="row">
+                        <div class="col-12">
+                          <select class="form-control2 catagories_type" name="catagories_type" id="catagories_type">
+                            <option value="">Select</option>
+                            <% Catagory.forEach(region =>{ %>
+                                <option value="<%= region._id %>"><%= region.type %></option>
+                           <% }) %>
+                        </select>
+                          <label class="form-label select-label">Choose option</label>
+        
+                        </div>
+                      </div>
+
+
+                      <div class="form-group">
+                        <label for="Descriptionss">Description</label>
+                        <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3"></textarea>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 mb-12" style="margin-top: 15px;">
+      
+                            <div class="form-outline">
+                              <label class="form-label" for="titles">Title</label>
+                              <input type="text" id="titles" name="titles" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+
+
+                    <div class="row">
+                      <div class="col-md-6 mb-4" style="margin-top: 15px;">
+      
+                        <div class="form-outline">
+                          <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="current_amount" name="current_amount" required>
+                          <label class="form-label" for="firstName">current amount</label>
+                        </div>
+      
+                      </div>
+                      <div class="col-md-6 mb-4"style="margin-top: 15px;">
+      
+                        <div class="form-outline">
+                          <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="amount_needed" name="amount_needed" required>
+                          <label class="form-label" for="lastName">amount needed</label>
+                        </div>
+      
+                      </div>
+                    </div>
+      
+                    <div class="row">
+                      <div class="col-md-6 mb-4" >
+      
+                        <div class="form-outline">
+                          <input type="date" name="enddate" id="enddate">
+                          <label class="form-label" for="firstName">end date</label>
+                        </div>
+      
+                      </div>
+                      <div class="col-md-6 mb-4">
+      
+                        <select class="select form-control-lg need_type " name="need_type" id="need_type" style="width: 350px;">
+                          <option value="">Select</option>
+                            <option value="2">Urgency</option>
+                            <option value="3">important</option>
+                          </select>
+                          <label class="form-label select-label" style="margin-left: 15px;">Urgency</label>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-sm-12 col-md-2">
+                          <div class="form-group hand_1">
+                              <label for="floor" class="label">Floor images</label>
+                              <div class="dropzone hand_1">
+                                  <img src="/images/zupld.png" class="upload-icon hand_1" />
+                                  <input id="files" class="fileupload_1 upload-input" type="file" name="floor" multiple accept=".pdf,.doc,.docx,.jpg,.png" >
+                              </div>
+                              <label class="lbl_err property_img">property image is require</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-12 col-md-10">
+                          <label for="images_1" class="label">uploaded images</label>
+                          <div class="dropzone mdf w-100">
+                              <div id="uploaded_images_1" class="row"> </div>
+                          </div>
+                      </div>
+                   </div>
+      
+                    <div class="row">
+                      <div class="col-md-6 mb-4 pb-2">
+      
+                        <div class="form-outline">
+                            <select class="select form-control-lg" name="Oraganizations" id="Oraganizations" style="width: 350px;" >
+                                <option value="1">Organizations</option>
+                                <% Oraganizations.forEach(region =>{ %>
+                                  <option value="<%= region._id %>"><%= region.name %></option>
+                             <% }) %>
+                              </select>
+                          <label class="form-label select-label" style="margin-left: 15px;">Oraganization</label>
+                        </div>
+      
+                      </div>
+                      <div class="col-md-6 mb-4 pb-2">
+      
+                        <div class="col-md-7 mb-4">
+      
+                            <select class="select form-control-lg" name="status" id="status" style="width: 350px;">
+                                <option value="1">Status</option>
+                                <option value="active">active</option>
+                                <option value="Suspend">Suspend</option>
+                              </select>
+                            <label class="form-label select-label" style="margin-left: 15px;">status</label>
+
+                          </div>
+      
+                      </div>
+                    </div>
+
+
+                    
+      
+              
+      
+                    <div class="mt-4 pt-2">
+                      <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                    </div>
+      
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+
+
+<%- include('footer') %>
+
+<script>
+
+$("#uploaded_images_1").on("click", ".img_rmv", function() {
+    var array = [];
+    console.log('before ' + images_to_upload);
+    var _id = this.id.substring(5);
+    const index = images_to_upload.indexOf(_id);
+    if (index > -1) {
+        images_to_upload.splice(index, 1);
+    }
+    for (var count = 0; count < images_to_upload.length; count++) {
+        array.push(images_to_upload[count]);
+    }
+    images_to_upload = array;
+    console.log('after ' + images_to_upload);
+    $(this).parent().remove();
+});
+
+
+$(".fileupload_1").on("change", function(e) {
+    var files = e.target.files;
+    if (parseInt(files.length) > 10) {
+        toastr.error("You can only upload a maximum of 10 files", "Error", {
+            "timeOut": "2000",
+            "extendedTImeout": "500"
+        });
+        return;
+    } else {
+        for (var count = 0; count < files.length; count++) {
+            var name = files[count].name;
+            var extension = name.split('.').pop().toLowerCase();
+            if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                toastr.error("Invalid " + name + '.' + extension + " Image File", "Error", {
+                    "timeOut": "2000",
+                    "extendedTImeout": "500"
+                });
+            } else {
+                var reader = new FileReader();
+                reader.readAsDataURL(files[count]);
+                images_to_upload.push(name);
+                reader.onload = function(e) {
+                    var templete = '<div class = "uploaded_image fileinput-button col-sm-3"> <input type="file" name = "property_img[]" id = "property_img" hidden><img src="' + e.target.result + '" > <a href = "#" class="img_rmv btn btn-danger" id="file_' + name + '"> <i class= "fa fa-times-circle" style="font-size:48px;color:red"> </i> </a> </div>';
+                    $("#uploaded_images_1").append(templete);
+                }
+            }
+        }
+    }
+})
+
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+
+
+
+
+// $("#NewUnit").submit(function(e){
+//       e.preventDefault();
+//       var form = $(this);
+      
+      
+//       $.ajax({
+//              type: "POST",
+//              url: '/catagory',
+//              data: form.serialize(), // serializes the form's elements.
+//              success: function(data)
+//              {
+//                if(data === 'success'){
+//                 toastr.success('Success', 'Successfully Saved', {
+//                   timeOut: 5,
+//                   preventDuplicates: true,
+//                   positionClass: 'toast-top-right',
+//                   // Redirect 
+//                   onHidden: function() {
+//                     window.location.reload()
+//                   }
+//               });
+//                }else if(data === 'error'){
+//                 toastr.error('Catagory already exist');
+//                 // window.location = '/admin/registrations'
+//                }
+                 
+//              }
+//            });
+//   });
+
+
+</script>
