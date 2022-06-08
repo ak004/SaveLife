@@ -42,6 +42,7 @@ app.use(passport.session());
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
 
+//from the laptop me
 
 app.use(RegistrationRoute)
 mongoose
