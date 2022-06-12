@@ -7,6 +7,7 @@ const bcrypt        = require('bcrypt');
 const flash         = require("express-flash");
 const User          = require("./models/User")
 const methodOverride = require("method-override");
+const Api = require('./Routes/api');
 const RegistrationRoute = require('./Routes/registeration')
 const { checkAuthenticated,
     checkNotAuthenticated} = require("./middleware/auth")
@@ -28,6 +29,7 @@ initializePassport(
 );
 
 app.set("view engine", "ejs");
+app.use('/uploads',express.static('uploads'))
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());
 app.use(
@@ -43,8 +45,10 @@ app.use(methodOverride("_method"));
 app.use(express.static("public"));
 
 //from the laptop me
+app.use('/api', Api)
 
 app.use(RegistrationRoute)
+
 mongoose
   .connect("mongodb://localhost:27017/project1", {
     useUnifiedTopology: true,

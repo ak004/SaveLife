@@ -143,7 +143,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     }
   });
   
-  router.delete("/logout", (req, res) => {
+  router.delete("/logout", checkNotAuthenticated,(req, res) => {
     req.logOut();
     res.redirect("/login");
   });
@@ -223,41 +223,37 @@ router.get("/", checkAuthenticated, (req, res) => {
 })
 
 
-router.post('/charty_item',upload.fields([{
-  name: 'floor', maxCount: 10
-}, 
-
-]),(req, res) => {
+router.post('/charty_item',upload.array('floor'),(req, res) => {
   console.log("all_items: --" , req.body);
   const type = req.body.catagories_type
   const title = req.body.titles
-  const description = req.body.catagories_type
+  const description = req.body.Descriptionss
   const current_price = req.body.current_amount
   const des_price = req.body.amount_needed
   const end_date = req.body.enddate
   const need_type = req.body.need_type
-  const image = req.body.floor
+  const image = req.files
   const organaitazation = req.body.Oraganizations
   const status = req.body.status
 
+  const floor_imagesss = new Array();
 
+  image.forEach((imagess) => {
+    var url = "";
+        var liner2 = "";
+        var image_name =tokenGenerator(29);
+        url = "./uploads/" + image_name + '.jpg';
+        liner2 = "uploads/" + image_name + '.jpg';
+        fs.readFile(imagess.path, function(err, data) {
+            fs.writeFile(url, data, 'binary', function(err) {});
+            // fs.unlink(req.files[0].path, function (err, file) {
 
-  // image.forEach((imagess) => {
-  //   var url = "";
-  //   var liner = "";
-  //   var image_name =tokenGenerator(29);
-  //   url = "../uploads/" + image_name + '.jpg';
-  //   liner = "uploads/" + image_name + '.jpg';
-  //   fs.readFile(imagess, function(err, data) {
-  //       fs.writeFile(url, data, 'binary', function(err) {});
-  //       // fs.unlink(req.files[0].path, function (err, file) {
-
-  //       // });
-  //   });
-  // })
-
+            // });
+        });
+        console.log("check------------", liner2);
+        floor_imagesss.push(liner2)
+  })
     // console.log("check me out--------------", liner)
-
   const ChartiyData   = new Chartiy({
     type: type,
      title,
@@ -266,7 +262,7 @@ router.post('/charty_item',upload.fields([{
      des_price,
      end_date,
      need_type,
-     image,
+     image: floor_imagesss,
      organaitazation,
      status,
 
@@ -276,26 +272,18 @@ router.post('/charty_item',upload.fields([{
 
  ChartiyData.save().then(success => {
      // res.redirect('/admin/registrations')
-     res.send('success')
+     res.redirect('/chartiy_registration')
  }).catch(err => {
      console.log('Error', err)
  })
-
-   
-
-
-
 
 })
 
 
 
 
-router.post('/orginazation',upload.fields([{
-  name: 'floor', maxCount: 10
-}, 
 
-]),(req, res) => {
+router.post('/orginazation',upload.array('floor'),(req, res) => {
   console.log("all_orgazitaztion: --" , req.body);
 
   const name = req.body.Organizations_name
@@ -304,25 +292,28 @@ router.post('/orginazation',upload.fields([{
   const phone = req.body.phone_number
   const contact = req.body.contact
   const Address = req.body.address
-  const image = req.body.floor
+  const image = req.files
   const status = req.body.status
 
 
   
-  // image.forEach((imagess) => {
-  //   var url = "";
-  //   var liner = "";
-  //   var image_name =tokenGenerator(29);
-  //   url = "../uploads/" + image_name + '.jpg';
-  //   liner = "uploads/" + image_name + '.jpg';
-  //   // fs.readFile(imagess, function(err, data) {
-  //   //     fs.writeFile(url, data, 'binary', function(err) {});
-  //   //     // fs.unlink(req.files[0].path, function (err, file) {
+  const floor_imagesss = new Array();
 
-  //   //     // });
-  //   // });
-  // })
+  image.forEach((imagess) => {
+    var url = "";
+        var liner2 = "";
+        var image_name =tokenGenerator(29);
+        url = "./uploads/" + image_name + '.jpg';
+        liner2 = "uploads/" + image_name + '.jpg';
+        fs.readFile(imagess.path, function(err, data) {
+            fs.writeFile(url, data, 'binary', function(err) {});
+            // fs.unlink(req.files[0].path, function (err, file) {
 
+            // });
+        });
+        console.log("check------------", liner2);
+        floor_imagesss.push(liner2)
+  })
   const OrganizationData   = new Oraganizations({
      name,
      description,
@@ -330,14 +321,14 @@ router.post('/orginazation',upload.fields([{
      phone,
      contact,
      Address,
-     image,
+     image:floor_imagesss,
      status,
 
  })
 
   OrganizationData.save().then(success => {
      // res.redirect('/admin/registrations')
-     res.send('success')
+     res.redirect('/organization')
  }).catch(err => {
      console.log('Error', err)
  })
