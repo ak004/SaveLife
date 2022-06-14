@@ -8,6 +8,8 @@ const User          = require("../models/User")
 const Chartiy       = require("../models/chartiy");
 const Oraganizations = require("../models/organaitazation")
 const fs            = require('fs')
+const Catagory = require('../Models/catagory.js');
+
 const multer = require('multer')
 const methodOverride = require("method-override");
 
@@ -22,8 +24,6 @@ router.post('/all_Chartiy',(req,res)=>{
             $match:{
                 status: {$ne: 'suspend'}
             },
-
-   
         },
         {
             $lookup:{
@@ -78,4 +78,23 @@ router.post('/all_Chartiy',(req,res)=>{
 
 
 });
+
+router.post('/all_Categories',(req, res) => {
+    Catagory.aggregate([
+        {
+            $match:{
+                status: {$ne: 'suspend'}
+            },
+        },
+    ], (err, catagories) => {
+        if(!err) {
+            res.send({
+                success: true,
+                record: {
+                    catagories
+                }
+            })
+        }
+    })
+})
 module.exports = router;

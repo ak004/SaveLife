@@ -321,7 +321,7 @@ router.post('/orginazation',upload.array('floor'),(req, res) => {
      phone,
      contact,
      Address,
-     image:floor_imagesss,
+     image:floor_imagesss ,
      status,
 
  })
