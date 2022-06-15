@@ -4,6 +4,8 @@ const session       = require('express-session');
 const mongoose      = require('mongoose');
 const passport      = require("passport");
 const bcrypt        = require('bcrypt');
+const bodyParser = require('body-parser')
+
 const flash         = require("express-flash");
 const User          = require("./models/User")
 const methodOverride = require("method-override");
@@ -39,14 +41,15 @@ app.use(
     saveUninitialized: false,
   })
 );
+//  app.use(bodyParser.urlencoded({ extended: true }))
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
-
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
 //from the laptop me
 app.use('/api', Api)
-
 app.use(RegistrationRoute)
 
 mongoose
