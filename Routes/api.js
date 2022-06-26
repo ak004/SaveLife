@@ -100,10 +100,9 @@ router.post('/all_Categories',(req, res) => {
 })
 
 
-
+//modeifed  alittle
 router.post('/all_Chartiy',(req,res)=>{
     console.log("isdfsd" , req.body);
-
 
 
 
