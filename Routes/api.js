@@ -104,13 +104,6 @@ router.post('/all_Categories',(req, res) => {
 router.post('/all_Chartiy',(req,res)=>{
     console.log("isdfsd" , req.body);
 
-
-
-
-
-
-
-    
     var filter = {
         $match: {},
     };
