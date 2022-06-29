@@ -3,9 +3,12 @@ const mongoose = require("mongoose")
 const organaizationSchema = new mongoose.Schema({
     name: {
         type: String,
-        default: "children"
+        required: true,
     },
     image: {
+        type:Array,
+    },
+    org_logo: {
         type:Array,
     },
     description: {
@@ -23,6 +26,9 @@ const organaizationSchema = new mongoose.Schema({
    Address: {
        type: String,
    },
+   owner_image: {
+    type:Array,
+    },
    status:{
         type: String,
         default: "active"

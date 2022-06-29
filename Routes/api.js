@@ -172,5 +172,86 @@ router.post('/all_Chartiy',(req,res)=>{
 
 });
 
+// @POST/api/Charity_detail
+router.post('/Charity_detail',(req,res)=>{
+    console.log("in details --- " , req.body)
+    const Charity_id = req.body.Charity_id
+    Chartiy.aggregate([
+        {
+            $match: {_id: mongoose.Types.ObjectId(Charity_id) }
+         },
+         {
+            $lookup:{
+                from: "organaizations",
+                localField: "organaitazation",
+                foreignField: "_id",
+                as: "organaitazation"
+            }
+        },
+        {
+            $unwind: "$organaitazation"
+        },
+        {
+            $lookup:{
+                from: "catagories",
+                localField: "type",
+                foreignField: "_id",
+                as: "catagories"
+            }
+        },
+        {
+            $unwind: "$catagories"
+        },
+        {
+            $project:{
+                _id:1,
+                type:"$catagories.type",
+                organaitazation_name:"$organaitazation.name",
+                image:1,
+                des_price:1,
+                current_price:1,
+                title:1,
+                org_image: "$organaitazation.image",
+                org_id: "$organaitazation._id",
+                description:1,
+                need_type:1,
+                end_date:1,
+                createdAt: 1,
+                updatedAt:1
+            }
+        }
+    ], (err, charotyy) => {
+        if(!err){
+        res.send({
+            success:true,
+            record:{
+                charotyy
+            }
+        })
+        }
+    })
+})
+
+
+router.post('/orgDetails', (req, res) => {
+    console.log("in org details, " , req.body);
+    const org_id = req.body.org_id
+
+    Oraganizations.aggregate([
+        {
+            $match: {_id: mongoose.Types.ObjectId(org_id) }
+         },
+    ], (err, organaitazation) => {
+        if(!err) {
+            res.send({
+                success:true,
+                record: {
+                    organaitazation
+                }
+            })
+        }
+    })
+    
+})
 
 module.exports = router;
