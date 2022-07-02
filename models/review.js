@@ -1,10 +1,13 @@
 const mongoose = require("mongoose")
 
 const reviewSchema = new mongoose.Schema({
-    type: {
+    comment: {
         reviews: String,
     },
     username: {
+        type: String
+    },
+    user_image: {
         type: String
     },
     type_id: {

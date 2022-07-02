@@ -20,7 +20,19 @@
                 <form id="register_form" method="POST" action="/orginazation" enctype="multipart/form-data">
 
                     <div class="row">
-                        <div class="col-md-12 mb-12" style="margin-top: 15px;">
+
+                      <div class="col-md-4">
+                        <label class="label"> Organization Logo</label>
+                        <div class="holdimgg">
+                          <img class="card" style="width: 10rem; height: 100px;" src="/images/imgholder.jpg" >
+                          <input id="files" class="fileupload_2 upload-input" type="file" name="logo" multiple accept=".pdf,.doc,.docx,.jpg,.png" required >
+                        </div>
+
+
+                      </div>
+
+
+                        <div class="col-md-6 mb-6" style="margin-top: 15px;">
       
                             <div class="form-outline">
                               <label class="form-label" for="titles">Organizations Name</label>
@@ -34,7 +46,18 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-4" style="margin-top: 15px;">
+                      
+                      <div class="col-md-3">
+                        <label class="label"> Organization owner image</label>
+                        <div class="holdimgg">
+                          <img class="card" style="width: 10rem; height: 100px;" src="/images/imgholder.jpg" >
+                          <input id="files" class="fileupload_3 upload-input" type="file" name="owner_img" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+                        </div>
+
+
+                      </div>
+
+                        <div class="col-md-5 mb-4" style="margin-top: 55px;">
         
                           <div class="form-outline">
                             <input class="form-control txt_err rooms" type="text" id="owner_name" name="owner_name" required>
@@ -42,7 +65,7 @@
                           </div>
         
                         </div>
-                        <div class="col-md-6 mb-4"style="margin-top: 15px;">
+                        <div class="col-md-4 mb-4"style="margin-top: 55px;">
         
                           <div class="form-outline">
                             <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="phone_number" name="phone_number" required>
@@ -93,7 +116,7 @@
                             <label for="floor" class="label">Organizations images</label>
                             <div class="dropzone hand_1">
                                 <img src="/images/zupld.png" class="upload-icon hand_1" />
-                                <input id="files" class="fileupload_1 upload-input" type="file" name="floor" multiple accept=".pdf,.doc,.docx,.jpg,.png" >
+                                <input id="files" class="fileupload_1 upload-input" type="file" name="floor" multiple accept=".pdf,.doc,.docx,.jpg,.png"required >
                             </div>
                             <label class="lbl_err property_img">property image is require</label>
                         </div>
@@ -135,8 +158,119 @@ function isNumberKey(evt) {
         return false;
     return true;
 }
+var images_to_upload = [];
 
 
+$(".fileupload_1").on("change", function(e) {
+  alert("so far soo good")
+  var files = e.target.files;
+  if (parseInt(files.length) > 10) {
+      toastr.error("You can only upload a maximum of 10 files", "Error", {
+          "timeOut": "2000",
+          "extendedTImeout": "500"
+      });
+      return;
+  } else {
+      for (var count = 0; count < files.length; count++) {
+          var name = files[count].name;
+          var extension = name.split('.').pop().toLowerCase();
+          if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+              toastr.error("Invalid " + name + '.' + extension + " Image File", "Error", {
+                  "timeOut": "2000",
+                  "extendedTImeout": "500"
+              });
+          } else {
+              var reader = new FileReader();
+              reader.readAsDataURL(files[count]);
+              images_to_upload.push(name);
+              reader.onload = function(e) {
+                  var templete = '<div class = "uploaded_image fileinput-button col-sm-3"> <input type="file" name = "property_img[]" id = "property_img" hidden><img src="' + e.target.result + '" > <a href = "#" class="img_rmv btn btn-danger" id="file_' + name + '"> <i class= "fa fa-times-circle" style="font-size:48px;color:red"> </i> </a> </div>';
+                  $("#uploaded_images_1").append(templete);
+              }
+          }
+      }
+  }
+})
+
+$(".fileupload_2").on("change", function(e) {
+  var files = e.target.files;
+  if (parseInt(files.length) > 1) {
+      toastr.error("You can only upload a maximum of 1 files", "Error", {
+          "timeOut": "2000",
+          "extendedTImeout": "500"
+      });
+      return;
+  } else {
+      for (var count = 0; count < files.length; count++) {
+          var name = files[count].name;
+          var extension = name.split('.').pop().toLowerCase();
+          if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+              toastr.error("Invalid " + name + '.' + extension + " Image File", "Error", {
+                  "timeOut": "2000",
+                  "extendedTImeout": "500"
+              });
+          } else {
+              var reader = new FileReader();
+              reader.readAsDataURL(files[count]);
+              images_to_upload.push(name);
+              reader.onload = function(e) {
+                  var templete = '<div class = "uploaded_image fileinput-button col-sm-3"> <input type="file" name = "org_img[]" id = "org_img" hidden><img src="' + e.target.result + '" > <a href = "#" class="img_rmv btn btn-danger" id="file_' + name + '"> <i class= "fa fa-times-circle" style="font-size:48px;color:red"> </i> </a> </div>';
+                  $("#holdimgg").append(templete);
+              }
+          }
+      }
+  }
+})
+
+
+
+$(".fileupload_3").on("change", function(e) {
+  var files = e.target.files;
+  if (parseInt(files.length) > 1) {
+      toastr.error("You can only upload a maximum of 1 files", "Error", {
+          "timeOut": "2000",
+          "extendedTImeout": "500"
+      });
+      return;
+  } else {
+      for (var count = 0; count < files.length; count++) {
+          var name = files[count].name;
+          var extension = name.split('.').pop().toLowerCase();
+          if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+              toastr.error("Invalid " + name + '.' + extension + " Image File", "Error", {
+                  "timeOut": "2000",
+                  "extendedTImeout": "500"
+              });
+          } else {
+              var reader = new FileReader();
+              reader.readAsDataURL(files[count]);
+              images_to_upload.push(name);
+              reader.onload = function(e) {
+                  var templete = '<div class = "uploaded_image fileinput-button col-sm-3"> <input type="file" name = "org_img[]" id = "org_img" hidden><img src="' + e.target.result + '" > <a href = "#" class="img_rmv btn btn-danger" id="file_' + name + '"> <i class= "fa fa-times-circle" style="font-size:48px;color:red"> </i> </a> </div>';
+                  $("#holdimgg").append(templete);
+              }
+          }
+      }
+  }
+})
+
+
+
+$("#uploaded_images_1").on("click", ".img_rmv", function() {
+  var array = [];
+  console.log('before ' + images_to_upload);
+  var _id = this.id.substring(5);
+  const index = images_to_upload.indexOf(_id);
+  if (index > -1) {
+      images_to_upload.splice(index, 1);
+  }
+  for (var count = 0; count < images_to_upload.length; count++) {
+      array.push(images_to_upload[count]);
+  }
+  images_to_upload = array;
+  console.log('after ' + images_to_upload);
+  $(this).parent().remove();
+});
 
 
 

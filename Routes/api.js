@@ -23,7 +23,9 @@ router.post('/all_urgent_Chartiy',(req,res)=>{
         {
             $match:{
                 status: {$ne: 'suspend'},
-                need_type: {$eq: '2'}
+                need_type: {$eq: '2'},
+                $expr:{$gt:['$des_price','$current_price']}
+
             },
         },
         {
@@ -115,7 +117,8 @@ router.post('/all_Chartiy',(req,res)=>{
         filter,
         {
             $match:{
-                status: {$ne: 'suspend'}
+                status: {$ne: 'suspend'},
+                $expr:{$gt:['$des_price','$current_price']}
             },
         },
         {
@@ -178,7 +181,11 @@ router.post('/Charity_detail',(req,res)=>{
     const Charity_id = req.body.Charity_id
     Chartiy.aggregate([
         {
-            $match: {_id: mongoose.Types.ObjectId(Charity_id) }
+            $match: {
+                _id: mongoose.Types.ObjectId(Charity_id),
+                $expr:{$gt:['$des_price','$current_price']}
+             }
+
          },
          {
             $lookup:{
@@ -252,6 +259,106 @@ router.post('/orgDetails', (req, res) => {
         }
     })
     
+})
+
+
+// filter 
+router.post('/filter',(req,res)=>{
+    console.log("isdfsd" , req.body);
+
+    var filter = {
+        $match: {},
+    };
+    // if (req.body.type != undefined && req.body.type != ""){
+    //     const typee = req.body.type
+    //     filter["$match"]["type"] = mongoose.Types.ObjectId(typee)
+    // }
+
+    if (req.body.searchtxt != undefined && req.body.searchtxt != "") {
+        const searchtxt = req.body.searchtxt
+        filter["$match"]["title"] = { $regex: new RegExp( searchtxt, 'si') };
+    }
+
+    Chartiy.aggregate([
+        filter,
+        {
+            $match:{
+                status: {$ne: 'suspend'},
+                $expr:{$gt:['$des_price','$current_price']}
+            },
+        },
+        {
+            $lookup:{
+                from: "organaizations",
+                localField: "organaitazation",
+                foreignField: "_id",
+                as: "organaitazation"
+            }
+        },
+        {
+            $unwind: "$organaitazation"
+        },
+        {
+            $lookup:{
+                from: "catagories",
+                localField: "type",
+                foreignField: "_id",
+                as: "catagories"
+            }
+        },
+        {
+            $unwind: "$catagories"
+        },
+        {
+            $project:{
+                _id:1,
+                type:"$catagories.type",
+                organaitazation_name:"$organaitazation.name",
+                image:1,
+                des_price:1,
+                current_price:1,
+                title:1,
+                description:1,
+                need_type:1,
+                end_date:1,
+                createdAt: 1,
+                updatedAt:1
+            }
+        }
+   
+    ], (err, charotyy) => {
+        const size = charotyy.length
+        if(!err){
+        res.send({
+            success:true,
+            record:{
+                charotyy,
+                size
+            },
+           
+        })
+        }
+    })
+
+
+
+});
+
+router.post('/donate', (req,res) => {
+    const charity_id = req.body.charity_id
+    const amount = req.body.amount
+
+    Chartiy.findByIdAndUpdate({_id:charity_id}, {$set:{current_price:amount }}, (err, success) => {
+        if(success) {
+            res.send({
+                success:true
+            })
+        }else {
+            res.send({
+                success: false
+            })
+        }
+    })
 })
 
 module.exports = router;

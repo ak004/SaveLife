@@ -283,7 +283,16 @@ router.post('/charty_item',upload.array('floor'),(req, res) => {
 
 
 
-router.post('/orginazation',upload.array('floor'),(req, res) => {
+router.post('/orginazation',upload.fields([{
+  name: 'logo', maxCount: 1
+}, 
+{
+  name: 'floor', maxCount: 10
+},
+{
+  name: 'owner_img', maxCount: 1
+},
+]),(req, res) => {
   console.log("all_orgazitaztion: --" , req.body);
 
   const name = req.body.Organizations_name
@@ -292,11 +301,13 @@ router.post('/orginazation',upload.array('floor'),(req, res) => {
   const phone = req.body.phone_number
   const contact = req.body.contact
   const Address = req.body.address
-  const image = req.files
+  const image = req.files.floor
+  const owner_img = req.files.owner_img
+  const logo_img = req.files.logo
   const status = req.body.status
 
 
-  
+  console.log(req.files.owner_img)
   const floor_imagesss = new Array();
 
   image.forEach((imagess) => {
@@ -314,6 +325,42 @@ router.post('/orginazation',upload.array('floor'),(req, res) => {
         console.log("check------------", liner2);
         floor_imagesss.push(liner2)
   })
+  const owner_imagesss = new Array();
+
+  owner_img.forEach((imagess) => {
+    var url = "";
+        var liner2 = "";
+        var image_name =tokenGenerator(29);
+        url = "./uploads/" + image_name + '.jpg';
+        liner2 = "uploads/" + image_name + '.jpg';
+        fs.readFile(imagess.path, function(err, data) {
+            fs.writeFile(url, data, 'binary', function(err) {});
+            // fs.unlink(req.files[0].path, function (err, file) {
+
+            // });
+        });
+        console.log("check------------", liner2);
+        owner_imagesss.push(liner2)
+  })
+
+  const logo_imagesss = new Array();
+
+  logo_img.forEach((imagess) => {
+    var url = "";
+        var liner2 = "";
+        var image_name =tokenGenerator(29);
+        url = "./uploads/" + image_name + '.jpg';
+        liner2 = "uploads/" + image_name + '.jpg';
+        fs.readFile(imagess.path, function(err, data) {
+            fs.writeFile(url, data, 'binary', function(err) {});
+            // fs.unlink(req.files[0].path, function (err, file) {
+
+            // });
+        });
+        console.log("check------------", liner2);
+        logo_imagesss.push(liner2)
+  })
+
   const OrganizationData   = new Oraganizations({
      name,
      description,
@@ -323,6 +370,8 @@ router.post('/orginazation',upload.array('floor'),(req, res) => {
      Address,
      image:floor_imagesss ,
      status,
+     owner_image: owner_imagesss,
+     org_logo: logo_imagesss
 
  })
 
