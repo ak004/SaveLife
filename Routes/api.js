@@ -6,9 +6,10 @@ const bcrypt        = require('bcrypt');
 const flash         = require("express-flash");
 const User          = require("../models/User")
 const Chartiy       = require("../models/chartiy");
-const Oraganizations = require("../models/organaitazation")
+const Oraganizations= require("../models/organaitazation")
 const fs            = require('fs')
-const Catagory = require('../Models/catagory.js');
+const Catagory      = require('../Models/catagory.js');
+const Review        = require("../models/review")
 
 const multer = require('multer')
 const methodOverride = require("method-override");
@@ -228,13 +229,20 @@ router.post('/Charity_detail',(req,res)=>{
             }
         }
     ], (err, charotyy) => {
-        if(!err){
-        res.send({
-            success:true,
-            record:{
-                charotyy
-            }
-        })
+        if(!err) {
+            Review.find({type_id: charotyy[0]._id }, (err, reviews) => {
+
+                if(!err){
+                    res.send({
+                        success:true,
+                        record:{
+                            charotyy,
+                            reviews
+                        }
+                    })
+                    }
+
+            })
         }
     })
 })
@@ -250,13 +258,20 @@ router.post('/orgDetails', (req, res) => {
          },
     ], (err, organaitazation) => {
         if(!err) {
+            Review.find({type_id: organaitazation[0]._id }, (err, reviews) => {
+                 if(!err) {
             res.send({
                 success:true,
                 record: {
-                    organaitazation
+                    organaitazation,
+                    reviews
                 }
             })
+                 }
+            
+            })
         }
+   
     })
     
 })
@@ -357,6 +372,59 @@ router.post('/donate', (req,res) => {
             res.send({
                 success: false
             })
+        }
+    })
+})
+
+router.post('/add_review', (req, res) => {
+    console.log("aaaa", req.body)
+    const username = req.body.username
+    const comment = req.body.comment
+    const type_id = req.body.type_id
+    const divice_id = req.body.divice_id
+
+    const Reviewdata = new Review({
+        username: username,
+        type_id: type_id,
+        comment: comment,
+        divice_id: divice_id
+    }) 
+
+    Reviewdata.save().then(success => {
+        res.send({
+            success: true
+        })
+    })
+
+
+    // if(req.body.user_image != undefined && req.body.user_image != "") {
+    // }
+})
+
+router.post('/get_reviews', (req, res) => {
+    const type_id = req.body.type_id
+    Review.find({type_id:type_id}, (err, reviews) => {
+        if(!err) {
+            const size = reviews.length
+            res.send({
+                success:true,
+                record: {
+                    reviews,
+                    size
+                }
+            })
+                 }
+    })
+})
+
+router.post('/delete_review', (req, res) => {
+    const _id = req.body._id
+    
+    Review.findByIdAndDelete({ _id: _id }, (err, data) => {
+        if (!err) {
+            res.send('success')
+        } else {
+            res.send('error')
         }
     })
 })
