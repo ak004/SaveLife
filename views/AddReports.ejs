@@ -1,0 +1,326 @@
+<%- include('header') %>
+<div class="ibox float-e-margins">
+    <div class="ibox-content text-center p-md">
+
+    <h1>Report Registration</h1>
+    </div>
+
+
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-12">
+              <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Report</h3>
+                  <form id="report_form" method="POST" action="/add_report" enctype="multipart/form-data">
+
+
+                    <div class="row">
+                        <div class="col-12">
+                          <select class="form-control2 catagories_type" name="catagories_type" id="catagories_type" required>
+                            <option value="">Select</option>
+                            <% catagory.forEach(region =>{ %>
+                                <option value="<%= region._id %>"><%= region.type %></option>
+                           <% }) %>
+                        </select>
+                          <label class="form-label select-label">Select Catagory</label>
+        
+                        </div>
+                      </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 mb-12" style="margin-top: 15px;">
+      
+                            <div class="form-outline">
+                              <label class="form-label" for="titles">Title</label>
+                              <input type="text" id="titles" name="titles" maxlength="150" class="form-control form-control-lg" required/>
+                            </div>
+                        </div>
+                     </div>
+                      <div class="form-group">
+                        <label for="Descriptionss">Description</label>
+                        <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3" required></textarea>
+                      </div>
+
+
+                    <div class="row">
+                        <div id="propSchoolsSectn "
+                        class="col-lg-12 mt-md-5 mt-4 pt-md-0 pt-3 doc-upload-section">
+                        <h3 class="font-lg font-weight-normal text-dark mb-2">Wish List</h3>
+                        <p class="font-xs mb-4">Please write the items donated and there amount in there repective feilds and press the "+" to add it to your list </p>
+                        <div class="form-holder1 row mb-3 doc-upload-blk gutter-8">
+                            <div class="col-md-6 mb-4" style="margin-top: 15px;">
+      
+                                <div class="form-outline">
+                                  <label class="form-label" for="firstName">Items given for charity</label>
+                                  <input class="form-control itemms" placeholder="Ex: cloths, milks, blank" type="text" id="itemms" name="current_amount" >
+                                </div>
+              
+                              </div>
+                              <div class="col-md-3 mb-4"style="margin-top: 15px;">
+              
+                                <div class="form-outline">
+                                  <label class="form-label" for="lastName">amount </label>
+                                  <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="number" id="amount_given" name="amount_given" >
+                                </div>
+              
+                              </div>
+                            <div class="col-1 mt-2"> <i
+                                    class="font-xxl addschool bg-white border text-primary px-3 d-inline-flex align-items-center justify-content-center rounded " style="cursor: pointer;margin-top: 70%">+</i>
+                            </div>
+                           
+                        </div>
+                        <fieldset>
+                            <legend class="label">Items</legend>
+                             <table id="form-holder-append2" class="table">
+                                <thead>
+                                    <th>item</th>
+                                    <th>amount</th>
+                                </thead>
+                             </table>
+                             </fieldset>
+                         
+                        </div>
+                    </div>
+      
+
+
+                    <div class="row">
+                      <div class="col-sm-12 col-md-2">
+                          <div class="form-group hand_1">
+                              <label for="floor" class="label">images</label>
+                              <div class="dropzone hand_1">
+                                  <img src="/images/zupld.png" class="upload-icon hand_1" />
+                                  <input id="files" class="fileupload_1 upload-input" type="file" name="imagess" multiple accept=".pdf,.doc,.docx,.jpg,.png"  required>
+                              </div>
+                              <label class="lbl_err property_img">images are require</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-12 col-md-10">
+                          <label for="images_1" class="label">uploaded images</label>
+                          <div class="dropzone mdf w-100">
+                              <div id="uploaded_images_1" class="row"> </div>
+                          </div>
+                      </div>
+                   </div>
+      
+                   <div class="row">
+                    <div class="col-sm-12 col-md-2">
+                        <div class="form-group hand_1">
+                            <label for="floor" class="label">recipt image</label>
+                            <div class="dropzone hand_1">
+                                <img src="/images/zupld.png" class="upload-icon hand_1" />
+                                <input id="files" class="fileupload_1 upload-input" type="file" name="recipt_img" multiple accept=".pdf,.doc,.docx,.jpg,.png"  required>
+                            </div>
+                            <label class="lbl_err property_img">images are require</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-10">
+                        <label for="images_1" class="label">uploaded images</label>
+                        <div class="dropzone mdf w-100">
+                            <div id="uploaded_images_1" class="row"> </div>
+                        </div>
+                    </div>
+                 </div>
+
+                    <div class="row">
+                      <div class="col-md-6 mb-4 pb-2">
+      
+                        <div class="form-outline">
+                            <select class="select form-control-lg" name="Oraganizations" id="Oraganizations" style="width: 350px;" required >
+                                <option value="">Organizations</option>
+                                <% organaitazationss.forEach(region =>{ %>
+                                  <option value="<%= region._id %>" ><%= region.name %></option>
+                             <% }) %>
+                              </select>
+                          <label class="form-label select-label" style="margin-left: 15px;">Oraganization</label>
+                        </div>
+      
+                      </div>
+                      <div class="col-md-6 mb-4 pb-2">
+      
+                        <div class="col-md-7 mb-4">
+      
+                            <select class="select form-control-lg" name="status" id="status" style="width: 350px;" required>
+                                <option value="">Status</option>
+                                <option value="active">active</option>
+                                <option value="Suspend">Suspend</option>
+                              </select>
+                            <label class="form-label select-label" style="margin-left: 15px;">status</label>
+
+                          </div>
+      
+                      </div>
+                    </div>
+
+
+                    
+      
+              
+      
+                    <div class="mt-4 pt-2">
+                      <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                    </div>
+      
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+
+<%- include('footer') %>
+
+<script>
+
+
+$('.addschool').on('click', function () {
+            if(!$('#itemms').val() || $('#itemms').val() == ' '){
+         
+                alert('please fill the item name')
+            }else{
+
+                if(!$('#amount_given').val() || $('#amount_given').val() == ' ') {
+                    alert('please give the item a quantity')
+
+                }else {
+          
+            var source = $('.form-holder1:first'), clone = source.clone();
+            
+            // clone.find(':input').attr('id', function (i, val) {
+            //     return val + id_count;
+            // });
+            let isExist;
+                let name = $('#itemms').val();
+                let lat = $("#amount_given").val();
+ 
+               
+
+                $('#form-holder-append2 tr .name').each(function() {
+                     var txt = $(this).text();
+                    if(txt === name){
+                        isExist = true
+                    }else{
+                        isExist = false
+                    }
+                })
+         
+                if(isExist){
+                    alert('school already selected')
+                }else{
+            $("#form-holder-append2").append(
+             `
+               <tbody>
+             
+                <td class="name"><input type="hidden" name="txt_items[]" value="${name}">${name}</td>
+                <td class="lat"><input type="hidden" name="txt_items_quantity[]" value="${lat}">${lat}</td>
+                  
+                  </tbody>
+                `
+            )
+                                                        }
+
+            /* Those inputs will become empty whenever appeded table  */
+                 $('#itemms').val(' ');
+                $("#amount_given").val(' ');
+           
+            }
+            
+                }
+
+           
+        });
+
+
+
+        $("#uploaded_images_1").on("click", ".img_rmv", function() {
+    var array = [];
+    console.log('before ' + images_to_upload);
+    var _id = this.id.substring(5);
+    const index = images_to_upload.indexOf(_id);
+    if (index > -1) {
+        images_to_upload.splice(index, 1);
+    }
+    for (var count = 0; count < images_to_upload.length; count++) {
+        array.push(images_to_upload[count]);
+    }
+    images_to_upload = array;
+    console.log('after ' + images_to_upload);
+    $(this).parent().remove();
+});
+
+
+$(".fileupload_1").on("change", function(e) {
+    var files = e.target.files;
+    if (parseInt(files.length) > 10) {
+        toastr.error("You can only upload a maximum of 10 files", "Error", {
+            "timeOut": "2000",
+            "extendedTImeout": "500"
+        });
+        return;
+    } else {
+        for (var count = 0; count < files.length; count++) {
+            var name = files[count].name;
+            var extension = name.split('.').pop().toLowerCase();
+            if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                toastr.error("Invalid " + name + '.' + extension + " Image File", "Error", {
+                    "timeOut": "2000",
+                    "extendedTImeout": "500"
+                });
+            } else {
+                var reader = new FileReader();
+                reader.readAsDataURL(files[count]);
+                images_to_upload.push(name);
+                reader.onload = function(e) {
+                    var templete = '<div class = "uploaded_image fileinput-button col-sm-3"> <input type="file" name = "property_img[]" id = "property_img" hidden><img src="' + e.target.result + '" > <a href = "#" class="img_rmv btn btn-danger" id="file_' + name + '"> <i class= "fa fa-times-circle" style="font-size:48px;color:red"> </i> </a> </div>';
+                    $("#uploaded_images_1").append(templete);
+                }
+            }
+        }
+    }
+})
+
+$('#report_form').serialize()
+// $("#report_form").submit(function(e){
+//        e.preventDefault();
+       
+   
+//   $.ajax({
+//          type: "POST",
+//          cache: false,
+//         contentType: false,
+//         // dataType: 'json',
+//         processData: false,
+//          url: '/add_report',
+//          data: formData, // serializes the form's elements.
+//          success: function(data)
+//          {
+//            if(data === 'success'){
+//             toastr.success('Successfully saved')
+//             window.location = '/admin/newproperty'
+//            }else if(data === 'error'){
+//             toastr.error('Property already exist');
+//             // window.location = '/admin/registrations'
+//            }
+             
+//          }
+//        });
+// });
+
+       
+
+
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+
+
+
+</script>

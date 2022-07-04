@@ -13,6 +13,7 @@ const Review        = require("../models/review")
 
 const multer = require('multer')
 const methodOverride = require("method-override");
+const Reports = require('../models/Reports');
 
 
 const router = express.Router()
@@ -428,5 +429,156 @@ router.post('/delete_review', (req, res) => {
         }
     })
 })
+
+
+router.post('/get_reports', (req, res) => {
+    Reports.find({}, (err, reports) => {
+        if(!err) {
+            res.send({
+                success: true,
+                record: {
+                    reports
+                }
+            })
+        }
+    })
+})
+
+
+router.post('/report_detail', async (req, res) => {
+
+    const _id = req.body.report_id
+
+
+    Reports.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(_id)
+             }
+
+         },
+         {
+            $lookup:{
+                from: "organaizations",
+                localField: "org_id",
+                foreignField: "_id",
+                as: "organaitazation"
+            }
+        },
+        {
+            $unwind: "$organaitazation"
+        },
+        {
+            $lookup:{
+                from: "catagories",
+                localField: "catagory_id",
+                foreignField: "_id",
+                as: "catagories"
+            }
+        },
+        {
+            $unwind: "$catagories"
+        },
+        {
+            $project:{
+                _id:1,
+                type:"$catagories.type",
+                organaitazation_name:"$organaitazation.name",
+                report:1,
+                discrition:1,
+                images:1,
+                recipts_imgs:1,
+                lists_of_items:1,
+               
+                org_id: "$organaitazation._id",
+                owner_name:"$organaitazation.ownder_name",
+                owner_image: "$organaitazation.owner_image",
+                org_phone: "$organaitazation.phone",
+                org_contact: "$organaitazation.contact",
+                createdAt: 1,
+                updatedAt:1
+            }
+        }
+    ], (err, reporrt) => {
+        if(!err) {
+                    res.send({
+                        success:true,
+                        record:{
+                            reporrt,
+                        }
+                    })
+
+        }
+    })
+
+            // Reports.aggregate([
+            //     {
+            //         $match: {
+            //             $match: {_id: mongoose.Types.ObjectId(_id) }
+            //         }
+            //     },
+            //     // {
+            //     //     $lookup:{
+            //     //         from: "organaizations",
+            //     //         localField: "org_id",
+            //     //         foreignField: "_id",
+            //     //         as: "organaitazation"
+            //     //     }
+            //     // },
+            //     // {
+            //     //     $unwind: "$organaitazation"
+            //     // },
+            //     // {
+            //     //     $lookup:{
+            //     //         from: "catagories",
+            //     //         localField: "catagory_id",
+            //     //         foreignField: "_id",
+            //     //         as: "catagories"
+            //     //     }
+            //     // },
+            //     // {
+            //     //     $unwind: "$catagories"
+            //     // },
+
+            //     {
+            //         $project: {
+            //             _id:1,
+            //             report:1,
+            //             discrition:1,
+            //             images:1,
+            //             recipts_imgs:1,
+            //             lists_of_items:1,
+            //         //     organaitazation_name: "$organaitazation.name",
+            //         //     org_id:1,
+            //         //     owner_name:"$organaitazation.ownder_name",
+            //         //     owner_image: "$organaitazation.owner_image",
+            //         //     org_phone: "$organaitazation.phone",
+            //         //     org_contact: "$organaitazation.contact",
+            //         //     catagory:"$catagories.type"
+            //         }
+            //     }
+
+            //   ], (err, reportss) => {
+            //     if(!err) {
+            //         res.send({
+            //             success: true,
+            //             record: {
+            //                 reportss
+            //             }
+            //         })
+                    
+            //     }else {
+            //         res.send({
+            //             success: false,
+            //             message: err
+            //         })
+            //     }
+            // })
+
+   
+})
+
+
+
 
 module.exports = router;

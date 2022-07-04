@@ -1,4 +1,4 @@
-const express = require('express')
+const express       = require('express')
 const session       = require('express-session');
 const mongoose      = require('mongoose');
 const passport      = require("passport");
@@ -6,10 +6,11 @@ const bcrypt        = require('bcrypt');
 const flash         = require("express-flash");
 const User          = require("../models/User")
 const Chartiy       = require("../models/chartiy");
-const Oraganizations = require("../models/organaitazation")
+const Oraganizations= require("../models/organaitazation")
+const Reports       = require("../models/Reports")
 const fs            = require('fs')
-const multer = require('multer')
-const methodOverride = require("method-override");
+const multer        = require('multer')
+const methodOverride= require("method-override");
 const { checkAuthenticated,
     checkNotAuthenticated} = require("../middleware/auth")
 
@@ -385,6 +386,187 @@ router.post('/orginazation',upload.fields([{
 
 })
 
+
+router.get('/ViewCharity',  async (req, res) => {
+    Chartiy.aggregate([
+      {
+        $lookup: {
+            from: "organaizations",
+            localField: "organaitazation",
+            foreignField: "_id",
+            as: "organaitazation"
+
+        }
+    },
+
+    {
+        $unwind: "$organaitazation"
+    },
+
+    {
+      $lookup: {
+          from: "catagories",
+          localField: "type",
+          foreignField: "_id",
+          as: "catagories"
+
+      }
+  },
+
+  {
+      $unwind: "$catagories"
+  },
+  {
+    $project:{
+      _id:1,
+      type:1,
+      des_price:1,
+      title:1,
+      organaitazation: "$organaitazation.name",
+      end_date:1,
+      current_price:1,
+      catagory: "$catagories.type",
+      status:1
+    }
+  }
+
+
+    ],(err, charity) => {
+      if(!err) {
+        res.render('../views/ViewCharity.ejs', {
+          charity
+        })
+      }
+    })
+
+})
+
+router.get("/AddReports", (req, res) => {
+//   res.render('../views/catagories.ejs', {
+//     Catagory,
+//     Oraganizations
+// })
+ Oraganizations.find({}, (err, organaitazationss) => {
+  if(!err) {
+    Catagory.find({ status: { $ne: 'suspend' } },(err, catagory) => {
+      if(!err) {
+        res.render('../views/AddReports.ejs', {
+          organaitazationss,
+          catagory
+        })
+      }
+    })
+  }
+ })
+
+
+
+
+
+
+})
+
+
+router.post('/add_report',upload.fields([{
+    name: 'imagess', maxCount: 10
+  }, 
+  {
+    name: 'recipt_img', maxCount: 10
+  },
+  ]), (req, res) => {
+    console.log("all info on report: ", req.body)
+ 
+    const report = req.body.titles
+    const description = req.body.Descriptionss
+    const org_ids = req.body.Oraganizations
+    const recipt_img = req.files.recipt_img
+    const images = req.files.imagess
+    const catagory_id = req.body.catagories_type
+
+ 
+
+
+
+    const lists_of_items = [];
+    var school_name =  new Array();
+    var qunatity =  new Array();
+
+    var name_hold =req.body.txt_items
+    var school_lat_hd = req.body.txt_items_quantity
+
+    school_name =  name_hold;
+    qunatity =  school_lat_hd;
+
+  
+    for(var i in school_name) {
+        var new_item = {};
+        new_item.name = school_name[i]
+        new_item.qunatity = qunatity[i]
+
+    lists_of_items.push(new_item)
+    }
+
+    console.log("items---------" ,lists_of_items)
+ 
+ 
+   const imagesss = new Array();
+
+                                  images.forEach((imagess) => {
+                                    var url = "";
+                                        var liner2 = "";
+                                        var image_name =tokenGenerator(29);
+                                        url = "./uploads/" + image_name + '.jpg';
+                                        liner2 = "uploads/" + image_name + '.jpg';
+                                        fs.readFile(imagess.path, function(err, data) {
+                                            fs.writeFile(url, data, 'binary', function(err) {});
+                                            // fs.unlink(req.files[0].path, function (err, file) {
+
+                                            // });
+                                        });
+                                        console.log("check------------", liner2);
+                                        imagesss.push(liner2)
+                                  })
+ 
+
+  //////////////////////////////////////////////
+  const recipt_images = new Array();
+
+                          recipt_img.forEach((imagess) => {
+                          var url = "";
+                              var liner2 = "";
+                              var image_name =tokenGenerator(29);
+                              url = "./uploads/" + image_name + '.jpg';
+                              liner2 = "uploads/" + image_name + '.jpg';
+                              fs.readFile(imagess.path, function(err, data) {
+                                  fs.writeFile(url, data, 'binary', function(err) {});
+                                  // fs.unlink(req.files[0].path, function (err, file) {
+
+                                  // });
+                              });
+                              console.log("check------------", liner2);
+                              recipt_images.push(liner2)
+                        })
+
+ 
+                        const Reportss   = new Reports({
+                          report: report,
+                          discrition: description,
+                          images: imagesss,
+                          recipts_imgs:recipt_images ,
+                          lists_of_items: lists_of_items,
+                          org_id: org_ids,
+                          catagory_id: catagory_id,
+                          
+                      })
+                     
+                      Reportss.save().then(success => {
+                          // res.redirect('/admin/registrations')
+                          res.redirect('../views/AddReports.ejs')
+                      }).catch(err => {
+                          console.log('Error', err)
+                      })
+ 
+  })
 
 
 

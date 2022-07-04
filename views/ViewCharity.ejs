@@ -1,0 +1,256 @@
+<%- include('header') %>
+<div class="ibox float-e-margins">
+    <div class="ibox-content text-center p-md">
+            <h1 >
+                catagories
+            </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox float-e-margins">
+                      
+                        
+                        <div class="ibox-content text-center p-md">
+                            <h2 class="p-md npt title"><span class="text-navyf"></span><br></h2>
+                            
+                            <div class="col-md-6 text-left">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUnitModal">Update Charity</button>
+                            </div>
+                           
+                            <table id="all_unit" class="table datatable table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>title</th>
+                                        <th>Catagory</th>
+                                        <!-- <th>Created on</th> -->
+                                        <th>org name</th>
+                                        <th>current price</th>
+                                        <th>need amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% charity.forEach(function(char){ %>
+
+                                        <tr>
+                                            <td><%= char.title %></td>
+                                            <td><%= char.catagory %></td>
+                                            <td><%= char.organaitazation %></td>
+                                            <td><%= char.current_price %></td>
+                                            <td><%= char.des_price %></td>
+
+                                            <td>
+                                                <button onclick="update_unit_modal('<%= char._id %>','<%= char.catagory %>','<%= char.status %>');" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    
+
+
+<!-- unit modals comes at here -->
+<div class="modal fade" id="newUnitModal" tabindex="-1" role="dialog" aria-labelledby="newUnitModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUnitModalLabel">Add New catagories</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="NewUnit" method="POST" action="/catagory">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit_name">Catagorys</label>
+                                <input class="form-control txt_err unit_name" type="text" id="catagory_name" name="catagory_name">
+                                <label class="lbl_err unit_name">Catagorys name is required</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit_status">Catagorys status</label>
+                                <select class="form-control txt_err unit_status" name="catagory_status" id="catagory_status">
+                                    <option value="active">Active</option>
+                                    <option value="suspend">Suspended</option>
+                                </select>
+                                <label class="lbl_err unit_status">select status</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="editUnitModal" tabindex="-1" role="dialog" aria-labelledby="editUnitModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUnitModalLabel">Update Unit Information</h5>
+                <button type="button" onclick="closemode()" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/update_catagory">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit_name2">Unit name</label>
+                                <input type="hidden" id="cat_id" name="cat_id">
+                                <input class="form-control txt_err unit_name2" type="text" id="catagory_name1" name="catagory_name1">
+                                <label class="lbl_err unit_name2">Unit name is required</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit_status2">Unit status</label>
+                                <select class="form-control txt_err unit_status2" name="catagory_status1" id="catagory_status1">
+                                    <option value="active">Active</option>
+                                    <option value="suspend">Suspended</option>
+                                </select>
+                                <label class="lbl_err unit_status2">select status</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="closemode()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $('#newUnitModal').click(function(){
+      $.ajax( {
+        url: "/catagory",
+        type: "POST",
+        data: formData, 
+        success: function() {
+            location.reload();
+        },
+        error: function( error ) {
+            console.error( "HttpUpload failed: " + error.msg );
+        }
+    } );
+    })
+    
+    
+    $("#NewUnit").submit(function(e){
+          e.preventDefault();
+          var form = $(this);
+          
+          
+          $.ajax({
+                 type: "POST",
+                 url: '/catagory',
+                 data: form.serialize(), // serializes the form's elements.
+                 success: function(data)
+                 {
+                   if(data === 'success'){
+                    toastr.success('Success', 'Successfully Saved', {
+                      timeOut: 5,
+                      preventDuplicates: true,
+                      positionClass: 'toast-top-right',
+                      // Redirect 
+                      onHidden: function() {
+                        window.location.reload()
+                      }
+                  });
+                   }else if(data === 'error'){
+                    toastr.error('Catagory already exist');
+                    // window.location = '/admin/registrations'
+                   }
+                     
+                 }
+               });
+      });
+    
+    //   $("#editUnitModal").submit(function(e){
+    //       e.preventDefault();
+    //       var form = $(this);
+          
+          
+        //   $.ajax({
+        //          type: "POST",
+        //          url: '/catagory',
+        //          data: form.serialize(), // serializes the form's elements.
+        //          success: function(data)
+        //          {
+        //            if(data === 'success'){
+        //             toastr.success('Success', 'Successfully Saved', {
+        //               timeOut: 5,
+        //               preventDuplicates: true,
+        //               positionClass: 'toast-top-right',
+        //               // Redirect 
+        //               onHidden: function() {
+        //                 window.location.reload()
+        //               }
+        //           });
+        //            }else if(data === 'error'){
+        //             toastr.error('Catagory already exist');
+        //             // window.location = '/admin/registrations'
+        //            }
+                     
+        //          }
+            //    });
+    //   });
+    
+    
+    
+    
+    
+    
+      function update_unit_modal(unit_id, unit_name, status) {
+        console.log("catagory: ", unit_name)
+        $("#editUnitModal").modal('show');
+        $("#catagory_name1").val(unit_name);
+        $("#catagory_status1").val(status);
+        $("#cat_id").val(unit_id);
+    }
+    function closemode() {
+        $("#editUnitModal").modal('hide');
+        location.reload();
+    }
+    
+    </script>
+    <%- include('footer') %>
