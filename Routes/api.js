@@ -414,10 +414,12 @@ router.post('/get_reviews', (req, res) => {
                     size
                 }
             })
+                 }else {
+
                  }
     })
 })
-
+// to dlete reviews
 router.post('/delete_review', (req, res) => {
     const _id = req.body._id
     
@@ -430,7 +432,7 @@ router.post('/delete_review', (req, res) => {
     })
 })
 
-
+// to get reports
 router.post('/get_reports', (req, res) => {
     Reports.find({}, (err, reports) => {
         if(!err) {
@@ -444,7 +446,7 @@ router.post('/get_reports', (req, res) => {
     })
 })
 
-
+//to get report details
 router.post('/report_detail', async (req, res) => {
 
     const _id = req.body.report_id
@@ -489,7 +491,7 @@ router.post('/report_detail', async (req, res) => {
                 images:1,
                 recipts_imgs:1,
                 lists_of_items:1,
-               
+
                 org_id: "$organaitazation._id",
                 owner_name:"$organaitazation.ownder_name",
                 owner_image: "$organaitazation.owner_image",
