@@ -83,7 +83,7 @@ router.post('/all_urgent_Chartiy',(req,res)=>{
 
 
 });
-
+//api to get all categoeies
 router.post('/all_Categories',(req, res) => {
     Catagory.aggregate([
         {
@@ -248,7 +248,7 @@ router.post('/Charity_detail',(req,res)=>{
     })
 })
 
-
+// api to get all organization details
 router.post('/orgDetails', (req, res) => {
     console.log("in org details, " , req.body);
     const org_id = req.body.org_id
@@ -360,6 +360,7 @@ router.post('/filter',(req,res)=>{
 
 });
 
+// api to donate 
 router.post('/donate', (req,res) => {
     const charity_id = req.body.charity_id
     const amount = req.body.amount
@@ -376,7 +377,7 @@ router.post('/donate', (req,res) => {
         }
     })
 })
-
+// api tp add a review
 router.post('/add_review', (req, res) => {
     console.log("aaaa", req.body)
     const username = req.body.username
@@ -402,6 +403,7 @@ router.post('/add_review', (req, res) => {
     // }
 })
 
+// api to get all reviews
 router.post('/get_reviews', (req, res) => {
     const type_id = req.body.type_id
     Review.find({type_id:type_id}, (err, reviews) => {
