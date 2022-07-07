@@ -582,6 +582,78 @@ router.post('/report_detail', async (req, res) => {
    
 })
 
+//fav api 
+router.post('/getFav_Charaity', (req, res) => {
+    var arr1 = new Array();
+    arr1 = req.body;
+    console.log(req.body);
+    var ids = [];
+    arr1.forEach(function(item) {
+        
+        ids.push(mongoose.Types.ObjectId(item.Charaty_id));
+      });
+      console.log("ids: ",ids)
+      Chartiy.aggregate([
+        {
+            $match:{
+                _id: {
+                    $in: ids
+                },
+                status: {$ne: 'suspend'},
+                $expr:{$gt:['$des_price','$current_price']}
+            },
+        },
+        {
+            $lookup:{
+                from: "organaizations",
+                localField: "organaitazation",
+                foreignField: "_id",
+                as: "organaitazation"
+            }
+        },
+        {
+            $unwind: "$organaitazation"
+        },
+        {
+            $lookup:{
+                from: "catagories",
+                localField: "type",
+                foreignField: "_id",
+                as: "catagories"
+            }
+        },
+        {
+            $unwind: "$catagories"
+        },
+        {
+            $project:{
+                _id:1,
+                type:"$catagories.type",
+                organaitazation_name:"$organaitazation.name",
+                image:1,
+                des_price:1,
+                current_price:1,
+                title:1,
+                description:1,
+                need_type:1,
+                end_date:1,
+                createdAt: 1,
+                updatedAt:1
+            }
+        }
+   
+    ], (err, charotyy) => {
+        if(!err){
+        res.send({
+            success:true,
+            record:{
+                charotyy
+            }
+        })
+        }
+    })
+
+})
 
 
 
