@@ -222,6 +222,8 @@ router.post('/Charity_detail',(req,res)=>{
                 title:1,
                 org_image: "$organaitazation.image",
                 org_id: "$organaitazation._id",
+                owner_name: "$organaitazation.ownder_name",
+                owner_phone: "$organaitazation.phone",
                 description:1,
                 need_type:1,
                 end_date:1,
@@ -364,8 +366,10 @@ router.post('/filter',(req,res)=>{
 router.post('/donate', (req,res) => {
     const charity_id = req.body.charity_id
     const amount = req.body.amount
+    const current_amount = req.body.current_amount
+    var added  =  current_amount + amount
 
-    Chartiy.findByIdAndUpdate({_id:charity_id}, {$set:{current_price:amount }}, (err, success) => {
+    Chartiy.findByIdAndUpdate({_id:mongoose.Types.ObjectId(charity_id)}, {$set:{current_price:added }}, (err, success) => {
         if(success) {
             res.send({
                 success:true
