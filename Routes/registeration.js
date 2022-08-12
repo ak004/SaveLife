@@ -101,7 +101,36 @@ router.get("/", checkAuthenticated, (req, res) => {
 
   
   
+  
   router.get("/dashboard", checkNotAuthenticated, (req, res) => {
+    Catagory.aggregate([
+      {
+          $match:{
+              status: {$ne: 'suspend'}
+          },
+      },
+          {
+            $lookup:{
+                from: "chartiys",
+                localField: "_id",
+                foreignField: "type",
+                as: "chartiys"
+            }
+        },
+        {
+            $unwind: "$chartiys"
+        },
+      
+  ], (err, catagories) => {
+      if(!err) {
+          res.send({
+              success: true,
+              record: {
+                  catagories
+              }
+          })
+      }
+  })
     res.render("dashboard");
   });
   router.get("/organization", (req, res) => {
@@ -145,6 +174,7 @@ router.get("/", checkAuthenticated, (req, res) => {
   });
   
   router.delete("/logout", checkNotAuthenticated,(req, res) => {
+    console.log("here in logout");
     req.logOut();
     res.redirect("/login");
   });
