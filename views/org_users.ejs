@@ -2,7 +2,7 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content text-center p-md">
             <h1 >
-                catagories
+                Organization Users
             </h1>
     </div>
 
@@ -17,32 +17,42 @@
                             <h2 class="p-md npt title"><span class="text-navyf"></span><br></h2>
                             
                             <div class="col-md-6 text-left">
-                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUnitModal">Update Charity</button> -->
+                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUnitModal">New Catagorys</button> -->
                             </div>
                            
                             <table id="all_unit" class="table datatable table-striped">
                                 <thead>
                                     <tr>
-                                        <th>title</th>
-                                        <th>Catagory</th>
+                                        <th>Name</th>
                                         <!-- <th>Created on</th> -->
-                                        <th>org name</th>
-                                        <th>current price</th>
-                                        <th>need amount</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% charity.forEach(function(char){ %>
+                                    <% org_users.forEach(function(org_user){ %>
 
                                         <tr>
-                                            <td><%= char.title %></td>
-                                            <td><%= char.catagory %></td>
-                                            <td><%= char.organaitazation %></td>
-                                            <td><%= char.current_price %></td>
-                                            <td><%= char.des_price %></td>
+                                            <td><%= org_user.name %></td>
+                                            <td><%= org_user.type %></td>
+                                            <td>
+                                                <% if(org_user.status == 1) { %>
+                                                    pending
+                                              <%  } else if (org_user.status == 2) {%> 
+                                                    approved
+                                              <% } %>
+                                            
+                                            </td>
 
                                             <td>
-                                                <!-- <button onclick="update_unit_modal('<%= char._id %>','<%= char.catagory %>','<%= char.status %>');" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button> -->
+                                                <% if(org_user.status == 1) { %>
+                                                    <button type="button" class="btn btn-primary" onclick="approve_org('<%= org_user._id %>')"> Approve</button>
+
+                                              <%  } else if (org_user.status == 2) {%> 
+                                                <button type="button" class="btn btn-danger" onclick="disapprove_org('<%= org_user._id %>')"> Disapprove</button>
+
+                                              <% } %>
                                             </td>
                                         </tr>
                                         <% }) %>
@@ -142,115 +152,44 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-    </div>
-</div>
-
-
-
+<%- include('footer') %>
 <script>
-    $('#newUnitModal').click(function(){
-      $.ajax( {
-        url: "/catagory",
-        type: "POST",
-        data: formData, 
-        success: function() {
-            location.reload();
-        },
-        error: function( error ) {
-            console.error( "HttpUpload failed: " + error.msg );
-        }
-    } );
-    })
-    
-    
-    $("#NewUnit").submit(function(e){
-          e.preventDefault();
-          var form = $(this);
-          
-          
-          $.ajax({
-                 type: "POST",
-                 url: '/catagory',
-                 data: form.serialize(), // serializes the form's elements.
-                 success: function(data)
-                 {
-                   if(data === 'success'){
-                    toastr.success('Success', 'Successfully Saved', {
-                      timeOut: 5,
-                      preventDuplicates: true,
-                      positionClass: 'toast-top-right',
-                      // Redirect 
-                      onHidden: function() {
-                        window.location.reload()
-                      }
-                  });
-                   }else if(data === 'error'){
-                    toastr.error('Catagory already exist');
-                    // window.location = '/admin/registrations'
-                   }
-                     
-                 }
-               });
-      });
-    
-    //   $("#editUnitModal").submit(function(e){
-    //       e.preventDefault();
-    //       var form = $(this);
-          
-          
-        //   $.ajax({
-        //          type: "POST",
-        //          url: '/catagory',
-        //          data: form.serialize(), // serializes the form's elements.
-        //          success: function(data)
-        //          {
-        //            if(data === 'success'){
-        //             toastr.success('Success', 'Successfully Saved', {
-        //               timeOut: 5,
-        //               preventDuplicates: true,
-        //               positionClass: 'toast-top-right',
-        //               // Redirect 
-        //               onHidden: function() {
-        //                 window.location.reload()
-        //               }
-        //           });
-        //            }else if(data === 'error'){
-        //             toastr.error('Catagory already exist');
-        //             // window.location = '/admin/registrations'
-        //            }
-                     
-        //          }
-            //    });
-    //   });
-    
-    
-    
-    
-    
-    
-      function update_unit_modal(unit_id, unit_name, status) {
-        console.log("catagory: ", unit_name)
-        $("#editUnitModal").modal('show');
-        $("#catagory_name1").val(unit_name);
-        $("#catagory_status1").val(status);
-        $("#cat_id").val(unit_id);
+    function approve_org(id) {
+      $.ajax({
+             type: "POST",
+             url: '/approve_org',
+             data: {_id: id},
+            
+             success: function(data)
+             {
+               if(data === 'success'){
+                console.log("succsdsdf11111");
+     
+               }else if(data === 'error'){
+               }
+                 
+             }
+           });
     }
-    function closemode() {
-        $("#editUnitModal").modal('hide');
-        location.reload();
-    }
-    
-    </script>
-    <%- include('footer') %>
+function disapprove_org(id) {
+  $.ajax({
+             type: "POST",
+             url: '/dis_approve_org',
+             data: {_id: id},
+            
+             success: function(data)
+             {
+               if(data === 'success'){
+                    console.log("succsdsdf2222");
+               }else if(data === 'error'){
+
+               }
+                 
+             }
+           });
+}
+</script>
+
+
+
+

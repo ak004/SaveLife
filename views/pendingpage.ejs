@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login</title>
 
     <link rel="stylesheet" href="/style.css">
     <style>
@@ -132,7 +132,7 @@ body {
 }
 
 body {
-  background: #1b1b1b;
+  background: #ffffff;
   color: #fff;
   font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
     "Lucida Grande", sans-serif;
@@ -489,35 +489,34 @@ input[type="checkbox"]:checked ~ .checkbox {
 
     </style>
 </head>
+
 <body>
     <div class="background-wrap">
         <div class="background"></div>
       </div>
       
-      <form id="accesspanel" action="/register" method="POST">
+      <form id="accesspanel"  action="/login" method="POST">
         <h1 id="litheader">WELCOME</h1>
-        <% if (messages) { %>
-          <p><%= messages.error %></p>
-          <% } %>
-        <div class="inset">
-          <p>
-            <input type="text" name="name" id="name" placeholder="Organization Name" required>
-          </p>
-          <p>
-            <input type="text" name="email" id="email" placeholder="Email address" required>
-          </p>
-          <p>
-            <input type="password" name="password" id="password" placeholder=" password" required>
-          </p>
-          <input type="hidden" name="org_user" id="org_user" placeholder="My Name" />
-
-          <div style="text-align: center;">
-
-          </div>
-          <input class="loginLoginValue" type="hidden" name="service" value="login" />
+        <div style="margin-top: 50px;">
+            
         </div>
+        <p> <center>
+
+            <% if (messages) { %>
+                <p><%= messages.error %></p>
+                <% } %>
+        </center>
+        </p>
+        <div>
+
+        </div>
+    
+    <center>
+        <h2 style="font-size: 16px; padding: 20px;">Please come back when you are approved from the admin page </h2>
+    </center>
+    
+         
         <p class="p-container">
-          <input type="submit" name="Login" id="go" value="REGISTER">
         </p>
       </form>
       <script>

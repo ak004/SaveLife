@@ -13,6 +13,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String,
+        required: true,
+        default: "user"
+    },
+    status: {
+        type: Number,
+        required: true,
+        default: 0
+    },
 
 })
 
