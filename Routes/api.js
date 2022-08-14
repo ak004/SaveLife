@@ -10,7 +10,6 @@ const Oraganizations= require("../models/organaitazation")
 const fs            = require('fs')
 const Catagory      = require('../Models/catagory.js');
 const Review        = require("../models/review")
-
 const multer = require('multer')
 const methodOverride = require("method-override");
 const Reports = require('../models/Reports');
@@ -658,6 +657,71 @@ router.post('/getFav_Charaity', (req, res) => {
     })
 
 })
+
+
+router.post('/login_user', async (req, res) => {
+    console.log("inlogin", req.body)
+    const username = req.body.username
+    const password = req.body.password
+    const user = await User.findOne({email:username})
+    if(user) {
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(isMatch) {
+            res.send({
+                success: true,
+                data: user
+            })
+        }else {
+            res.send({
+                success: false,
+                message: "wrong password"
+            })
+        }
+    }else {
+        res.send({
+            success: false,
+            message: "no user with this username exits"
+        })
+    }
+})
+
+router.post('/register_user', async(req, res) => {
+    console.log("sdfsdfsdf", req.body)
+    const userFound = await User.findOne({ email: req.body.email });
+  
+    if (userFound) {
+        res.send({
+            success: "fasle",
+            message: "wrong password"
+        })
+    } else {
+      try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        var token = crypto.randomBytes(32).toString('hex');
+        const userr = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: hashedPassword,
+          type: "user",
+          token: token
+        });
+  
+        await userr.save();
+        console.log("yesssssssssssssss");
+        res.send({
+            success: "true"
+           
+        })
+      } catch (error) {
+        res.send({
+            success: false,
+            message: "wrong password"
+        })
+      }
+    } 
+    
+})
+
 
 
 
