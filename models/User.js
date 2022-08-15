@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         default: 0
     },
     token: {
-        typr: String,
+        type: String,
         default: ""
     }
 

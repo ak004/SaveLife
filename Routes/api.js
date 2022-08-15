@@ -6,6 +6,7 @@ const bcrypt        = require('bcrypt');
 const flash         = require("express-flash");
 const User          = require("../models/User")
 const Chartiy       = require("../models/chartiy");
+const crypto =  require('crypto')
 const Oraganizations= require("../models/organaitazation")
 const fs            = require('fs')
 const Catagory      = require('../Models/catagory.js');
@@ -690,11 +691,13 @@ router.post('/register_user', async(req, res) => {
     const userFound = await User.findOne({ email: req.body.email });
   
     if (userFound) {
+        console.log("1111111111111111");
         res.send({
             success: "fasle",
             message: "wrong password"
         })
     } else {
+        console.log("222222222222222222222");
       try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         var token = crypto.randomBytes(32).toString('hex');
@@ -709,14 +712,22 @@ router.post('/register_user', async(req, res) => {
         await userr.save();
         console.log("yesssssssssssssss");
         res.send({
-            success: "true"
+            success: true,
+            record:{
+                success: "true"
+            }
            
         })
       } catch (error) {
+        console.log("nooooooooo", error);
         res.send({
             success: false,
-            message: "wrong password"
+            message: "wrong password",
+            record:{
+                success: "false"
+            }
         })
+        
       }
     } 
     
