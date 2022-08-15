@@ -670,12 +670,17 @@ router.post('/login_user', async (req, res) => {
         if(isMatch) {
             res.send({
                 success: true,
-                data: user
+                data: user,
+                token: user.token,
+                name: user.name,
+                username: user.email,
+                type: user.type
             })
         }else {
             res.send({
                 success: false,
-                message: "wrong password"
+                message: "wrong password",
+                
             })
         }
     }else {
