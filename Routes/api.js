@@ -699,12 +699,16 @@ router.post('/login_user', async (req, res) => {
                 token: user.token,
                 _id:user._id.toString(),
                 name: user.name,
+                username: user.email,
+                type: user.type
+
             })
             console.log("the user_id", user._id.toString());
         }else {
             res.send({
                 success: false,
-                message: "wrong password"
+                message: "wrong password",
+                
             })
         }
     }else {

@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-10">
-                        <label for="images_1" class="label">uploaded images</label>
+                        <label for="images_1" class="label" style="height: 100px; width: 100px">uploaded images</label>
                         <div class="dropzone mdf w-100">
                             <div id="uploaded_images_1" class="row"> </div>
                         </div>
@@ -162,7 +162,6 @@ var images_to_upload = [];
 
 
 $(".fileupload_1").on("change", function(e) {
-  alert("so far soo good")
   var files = e.target.files;
   if (parseInt(files.length) > 10) {
       toastr.error("You can only upload a maximum of 10 files", "Error", {
@@ -184,7 +183,7 @@ $(".fileupload_1").on("change", function(e) {
               reader.readAsDataURL(files[count]);
               images_to_upload.push(name);
               reader.onload = function(e) {
-                  var templete = '<div class = "uploaded_image fileinput-button col-sm-3"> <input type="file" name = "property_img[]" id = "property_img" hidden><img src="' + e.target.result + '" > <a href = "#" class="img_rmv btn btn-danger" id="file_' + name + '"> <i class= "fa fa-times-circle" style="font-size:48px;color:red"> </i> </a> </div>';
+                  var templete = '<div class = "uploaded_image fileinput-button col-sm-3"> <input type="file" name = "property_img[]" id = "property_img" hidden><img src="' + e.target.result + '" style="width: 10rem; height: 80px;"> <a href = "#" class="img_rmv btn btn-danger" id="file_' + name + '"> <i class= "fa fa-times-circle" style="font-size:28px;color:red"> </i> </a> </div>';
                   $("#uploaded_images_1").append(templete);
               }
           }
