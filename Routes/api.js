@@ -11,6 +11,7 @@ const Oraganizations= require("../models/organaitazation")
 const fs            = require('fs')
 const Catagory      = require('../Models/catagory.js');
 const Review        = require("../models/review")
+const Payment        = require("../models/payment")
 const multer = require('multer')
 const methodOverride = require("method-override");
 const Reports = require('../models/Reports');
@@ -30,6 +31,14 @@ router.post('/all_urgent_Chartiy',(req,res)=>{
 
             },
         },
+        {
+            $addFields: {
+                dateField: {
+                    $dateToParts: { date: new Date(),}
+                }
+            }
+        },
+        
         {
             $lookup:{
                 from: "organaizations",
@@ -63,6 +72,7 @@ router.post('/all_urgent_Chartiy',(req,res)=>{
                 title:1,
                 description:1,
                 need_type:1,
+                dateField:1,
                 end_date:1,
                 createdAt: 1,
                 updatedAt:1
@@ -70,6 +80,7 @@ router.post('/all_urgent_Chartiy',(req,res)=>{
         }
    
     ], (err, charotyy) => {
+        console.log("date Left",charotyy[0].end_date);
         if(!err){
         res.send({
             success:true,
@@ -364,15 +375,29 @@ router.post('/filter',(req,res)=>{
 
 // api to donate 
 router.post('/donate', (req,res) => {
+    console.log("sadfasdfasdf", req.body);
     const charity_id = req.body.charity_id
     const amount = req.body.amount
     const current_amount = req.body.current_amount
+    const user_id = req.body.user_id
     var added  =  current_amount + amount
 
     Chartiy.findByIdAndUpdate({_id:mongoose.Types.ObjectId(charity_id)}, {$set:{current_price:added }}, (err, success) => {
         if(success) {
-            res.send({
-                success:true
+
+            const paymentbyuser = new Payment({
+                User_id: user_id,
+                amount: amount,
+                charaty_id: charity_id
+            })
+
+            paymentbyuser.save().then(success => {
+                if(success) {
+                    res.send({
+                        success:true
+                    })
+                }
+                
             })
         }else {
             res.send({
@@ -670,8 +695,12 @@ router.post('/login_user', async (req, res) => {
         if(isMatch) {
             res.send({
                 success: true,
-                data: user
+                data: user,
+                token: user.token,
+                _id:user._id.toString(),
+                name: user.name,
             })
+            console.log("the user_id", user._id.toString());
         }else {
             res.send({
                 success: false,
@@ -684,7 +713,9 @@ router.post('/login_user', async (req, res) => {
             message: "no user with this username exits"
         })
     }
-})
+});
+
+
 
 router.post('/register_user', async(req, res) => {
     console.log("sdfsdfsdf", req.body)
@@ -731,6 +762,36 @@ router.post('/register_user', async(req, res) => {
       }
     } 
     
+})
+
+
+router.post('/setprofile_pic', async(req, res) => {
+    console.log("the image", req.body);
+})
+
+
+router.post('/paymentbyuser', async(req, res) => {
+    console.log("payment by user _id", req.body);
+    const user_id = req.body.user_id
+    Payment.find({User_id:user_id }, (err, payments) => {
+
+               if(!err){
+                    res.send({
+                        success:true,
+                        record:{
+                            payments
+                        }
+                    })
+                    }else {
+                        res.send({
+                            success: true,
+                            record:{
+                                
+                            }
+                        })
+                    }
+    });
+
 })
 
 
