@@ -59,7 +59,9 @@ const upload = multer({
 })
 
 router.get("/", checkAuthenticated, (req, res) => {
-
+  var _id = req.session.passport.user
+  User.findById(_id).then((uservalue) => {
+    var user_typpe = uservalue.type
   Chartiy.aggregate([
     {
         $match:{
@@ -96,11 +98,22 @@ router.get("/", checkAuthenticated, (req, res) => {
     
 ], (err, charCat) => {
     if(!err) {
-       res.render('dashboard',{
-        charCat
-       })
+      // if(user_typpe == 'org_user'){
+      //   res.render('org_home_page',{
+      //     charCat,
+      //     user_typpe
+      //    })
+      // }else {
+        res.render('dashboard',{
+          charCat,
+          user_typpe
+         })
+      // }
+ 
     }
+  })
 })
+
  
     // res.render("dashboard", { name: req.user.name });
   });
@@ -126,14 +139,16 @@ router.get("/", checkAuthenticated, (req, res) => {
     console.log("hit chata_regiser")
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
+    var user_typpe = uservalue.type
       if(uservalue.type === "admin"){
         Catagory.find({ status: { $ne: 'suspend' } }, (err, Catagory) => {
           if (!err) {
             Oraganizations.find({}, (err,Oraganizations) => {
               if (!err) {
-                res.render('../views/chartiy_registration.ejs', {
+                res.render('../views/chartiy_registration.html', {
                   Catagory,
-                  Oraganizations
+                  Oraganizations,
+                  user_typpe
               })
               }
             })
@@ -144,7 +159,11 @@ router.get("/", checkAuthenticated, (req, res) => {
       }else if (uservalue.status == 1) {
         res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('org_home_page')
+        res.render('org_home_page', {
+          Catagory,
+          Oraganizations,
+          user_typpe
+        })
       }
     });
 
@@ -158,6 +177,7 @@ router.get("/", checkAuthenticated, (req, res) => {
   router.get("/dashboard", checkAuthenticated, (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
+    var user_typpe = uservalue.type
       if(uservalue.type === "admin"){
    
         Chartiy.aggregate([
@@ -197,7 +217,8 @@ router.get("/", checkAuthenticated, (req, res) => {
       ], (err, charCat) => {
           if(!err) {
              res.render('dashboard',{
-              charCat
+              charCat,
+              user_typpe
              })
           }
       })
@@ -207,7 +228,10 @@ router.get("/", checkAuthenticated, (req, res) => {
       }else if (uservalue.status == 1) {
         res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('org_home_page')
+        res.render('org_home_page', {
+          charCat,
+          user_typpe
+        })
       }
     });
     
@@ -216,13 +240,18 @@ router.get("/", checkAuthenticated, (req, res) => {
   router.get("/organization", (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
+      var user_typpe = uservalue.type
       if(uservalue.type === "admin"){
-        res.render('../views/organization.ejs');
+        res.render('../views/organization.html', {
+          user_typpe
+        });
 
       }else if (uservalue.status == 1) {
         res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('org_home_page')
+        res.render('org_home_page', {
+          user_typpe
+        })
       }
     });
   });
@@ -237,6 +266,8 @@ router.get("/", checkAuthenticated, (req, res) => {
       var _id = req.session.passport.user
       User.findById(_id).then((uservalue) => {
         if(uservalue.type === "admin"){
+          var user_typpe = uservalue.type
+
           Chartiy.aggregate([
             {
                 $match:{
@@ -274,14 +305,17 @@ router.get("/", checkAuthenticated, (req, res) => {
         ], (err, charCat) => {
             if(!err) {
                res.render('dashboard',{
-                charCat
+                charCat,
+                user_typpe
                })
             }
         })
         }else if (uservalue.status == 1) {
           res.render('pendingpage')
         }else if (uservalue.status == 2) {
-          res.render('org_home_page')
+          res.render('org_home_page', {
+            user_typpe
+          })
         }
       });
     }
@@ -322,14 +356,16 @@ router.get("/", checkAuthenticated, (req, res) => {
   router.get("/catagories", checkAuthenticated, (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
+      var user_typpe = uservalue.type
       if(uservalue.type === "admin"){
         Catagory.find({}, (err, Catagory) => {
           if (!err) {
             Oraganizations.find({}, (err,Oraganizations) => {
               if (!err) {
-                res.render('../views/catagories.ejs', {
+                res.render('../views/catagories.html', {
                   Catagory,
-                  Oraganizations
+                  Oraganizations,
+                  user_typpe
               })
               }
             })
@@ -341,7 +377,9 @@ router.get("/", checkAuthenticated, (req, res) => {
       }else if (uservalue.status == 1) {
         res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('org_home_page')
+        res.render('org_home_page', {
+          user_typpe
+        })
       }
     });
 
@@ -574,6 +612,7 @@ router.get('/ViewCharity',checkAuthenticated,  async (req, res) => {
   var _id = req.session.passport.user
   User.findById(_id).then((uservalue) => {
     if(uservalue.type === "admin"){
+      var user_typpe = uservalue.type
       Chartiy.aggregate([
         {
           $lookup: {
@@ -619,15 +658,18 @@ router.get('/ViewCharity',checkAuthenticated,  async (req, res) => {
   
       ],(err, charity) => {
         if(!err) {
-          res.render('../views/ViewCharity.ejs', {
-            charity
+          res.render('../views/ViewCharity.html', {
+            charity,
+            user_typpe
           })
         }
       })
     }else if (uservalue.status == 1) {
       res.render('pendingpage')
     }else if (uservalue.status == 2) {
-      res.render('org_home_page')
+      res.render('org_home_page', {
+        user_typpe
+      })
     }
   });
 
@@ -640,13 +682,15 @@ router.get("/AddReports",checkAuthenticated, (req, res) => {
   var _id = req.session.passport.user
   User.findById(_id).then((uservalue) => {
     if(uservalue.type === "admin"){
+      var user_typpe = uservalue.type
       Oraganizations.find({}, (err, organaitazationss) => {
         if(!err) {
           Catagory.find({ status: { $ne: 'suspend' } },(err, catagory) => {
             if(!err) {
-              res.render('../views/AddReports.ejs', {
+              res.render('../views/AddReports.html', {
                 organaitazationss,
-                catagory
+                catagory,
+                user_typpe
               })
             }
           })
@@ -655,7 +699,9 @@ router.get("/AddReports",checkAuthenticated, (req, res) => {
     }else if (uservalue.status == 1) {
       res.render('pendingpage')
     }else if (uservalue.status == 2) {
-      res.render('org_home_page')
+      res.render('org_home_page', {
+        user_typpe
+      })
     }
   });
 
@@ -762,7 +808,7 @@ router.post('/add_report',checkAuthenticated, upload.fields([{
                      
                       Reportss.save().then(success => {
                           // res.redirect('/admin/registrations')
-                          res.redirect('../views/AddReports.ejs')
+                          res.redirect('../views/AddReports.html')
                       }).catch(err => {
                           console.log('Error', err)
                       })
@@ -776,6 +822,7 @@ router.get('/Org_users', checkAuthenticated, (req, res) => {
   var _id = req.session.passport.user
   User.findById(_id).then((uservalue) => {
     if(uservalue.type === "admin"){
+      var user_typpe = uservalue.type
       User.aggregate([
         {
           $match:{
@@ -784,15 +831,18 @@ router.get('/Org_users', checkAuthenticated, (req, res) => {
       },
       ], (err,org_users) => {
         if(!err) {
-          res.render('../views/org_users.ejs', {
-            org_users
+          res.render('../views/org_users.html', {
+            org_users,
+            user_typpe
           })
         }
       })
     }else if (uservalue.status == 1) {
       res.render('pendingpage')
     }else if (uservalue.status == 2) {
-      res.render('org_home_page')
+      res.render('org_home_page', {
+        user_typpe
+      })
     }
   });
 
@@ -805,6 +855,7 @@ router.post('/approve_org', checkAuthenticated,async (req, res) => {
   var _id = req.session.passport.user
   User.findById(_id).then((uservalue) => {
     if(uservalue.type === "admin"){
+      var user_typpe = uservalue.type
         User.findByIdAndUpdate(req.body._id, {status: 2 },
           function (err, docs) {
           if (err){
@@ -813,7 +864,8 @@ router.post('/approve_org', checkAuthenticated,async (req, res) => {
             else{
               res.send({
                 success: true,
-                data: docs
+                data: docs,
+                user_typpe
                })
                 console.log("Updated approve User : ", docs);
               }
@@ -826,7 +878,9 @@ router.post('/approve_org', checkAuthenticated,async (req, res) => {
     }else if (uservalue.status == 1) {
       res.render('pendingpage')
     }else if (uservalue.status == 2) {
-      res.render('org_home_page')
+      res.render('org_home_page', {
+        user_typpe
+      })
     }
   });
 
@@ -836,6 +890,7 @@ router.post('/dis_approve_org', checkAuthenticated,async (req, res) => {
   var _id = req.session.passport.user
   User.findById(_id).then((uservalue) => {
     if(uservalue.type === "admin"){
+      var user_typpe = uservalue.type
         User.findByIdAndUpdate(req.body._id, {status: 1 },
           function (err, docs) {
           if (err){
@@ -845,7 +900,8 @@ router.post('/dis_approve_org', checkAuthenticated,async (req, res) => {
               // res.render("../views/catagories.ejs");
               res.send({
                 success: true,
-                data: docs
+                data: docs,
+                user_typpe
                })
                 console.log("Updated disapprove User : ", docs);
               }
@@ -858,11 +914,17 @@ router.post('/dis_approve_org', checkAuthenticated,async (req, res) => {
     }else if (uservalue.status == 1) {
       res.render('pendingpage')
     }else if (uservalue.status == 2) {
-      res.render('org_home_page')
+      res.render('org_home_page', {
+        user_typpe
+      })
     }
   });
 
-})
+});
+
+// router.get("/orgLandingPage", async (req, res) => {
+//   res.render('orgLandingPage');
+// })
 
 
 

@@ -5,47 +5,48 @@
 				<div class="p-4 pt-5">
 		  		<a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../images/dambiil.jpg);"></a>
 	        <ul class="list-unstyled components mb-5">
-                <li>
-                    <a href="/dashboard">Dashboard</a>
-                </li>
-	          <li>
-	              <a href="/catagories">Catagorys</a>
-	          </li>
-	          <li>
-              <!-- <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Registration</a>
-              <ul class="collapse list-unstyled" id="pageSubmenu">
-                <li>
-                    <a href="/register">Students</a>
-                </li>
-                <li>
-                    <a href="/class">Class </a>
-                </li>
-                <li>
-                    <a href="/subjets">Subjets </a>
-                </li>
-                <li>
-                    <a href="/teachers">Teachers </a>
-                </li>
-              </ul> -->
-	          </li>
-	          <li>
-              <a href="/chartiy_registration">charity Registration</a>
-	          </li>
-              <li>
-                <a href="/organization">Organizations</a>
-                </li>
-                <li>
-                    <a href="/Org_users">Organization Users</a>
+                <% if(user_typpe === "admin") { %>
+
+                    <li>
+                        <a href="/dashboard">Dashboard</a>
                     </li>
-                <li>
-                    <a href="/ViewCharity">View charity</a>
+                  <li>
+                      <a href="/catagories">Catagorys</a>
+                  </li>
+                  <li>
+      
+                  </li>
+                  <li>
+                  <a href="/chartiy_registration">charity Registration</a>
+                  </li>
+                  <li>
+                    <a href="/organization">Organizations</a>
                     </li>
                     <li>
-                        <a href="/AddReports">Add Reports</a>
+                        <a href="/Org_users">Organization Users</a>
                         </li>
-	          <li>
-              <a href="#">settings</a>
-	          </li>
+                    <li>
+                        <a href="/ViewCharity">View charity</a>
+                        </li>
+                        <li>
+                            <a href="/AddReports">Add Reports</a>
+                            </li>
+
+
+                    <% } else { %>
+
+                        <li>
+                            <a href="/org_home_page">Home</a>
+                            </li>
+                            <li>
+                                <a href="/org_chariy">Charity</a>
+                                </li>
+                                <li>
+                                    <a href="/org_report">Report</a>
+                                    </li>
+                  <li>
+                        <% } %>
+
 	        </ul>
 
 	      

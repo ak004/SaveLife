@@ -777,24 +777,58 @@ router.post('/setprofile_pic', async(req, res) => {
 router.post('/paymentbyuser', async(req, res) => {
     console.log("payment by user _id", req.body);
     const user_id = req.body.user_id
-    Payment.find({User_id:user_id }, (err, payments) => {
 
-               if(!err){
-                    res.send({
-                        success:true,
-                        record:{
-                            payments
-                        }
-                    })
-                    }else {
-                        res.send({
-                            success: true,
-                            record:{
-                                
-                            }
-                        })
-                    }
-    });
+    Payment.aggregate([
+        {
+            $match:{
+                User_id: mongoose.Types.ObjectId(user_id)
+        
+            },
+        },
+        {
+            $lookup:{
+                from: "chartiys",
+                localField: "charaty_id",
+                foreignField: "_id",
+                as: "chartiys"
+            }
+        },
+        {
+            $unwind: "$chartiys"
+        },
+        {
+            $lookup:{
+                from: "catagories",
+                localField: "chartiys.type",
+                foreignField: "_id",
+                as: "catagories"
+            }
+        },
+        {
+            $unwind: "$catagories"
+        },
+        {
+            $project:{
+                _id:1,
+                type:"$catagories.type",
+                amount:1,
+                charaty_id:1,
+                createdAt: 1,
+                User_id:1,
+                updatedAt:1
+            }
+        }
+   
+    ], (err, payments) => {
+        if(!err){
+        res.send({
+            success:true,
+            record:{
+                payments
+            }
+        })
+        }
+    })
 
 })
 

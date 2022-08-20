@@ -5,7 +5,7 @@ const mongoose      = require('mongoose');
 const passport      = require("passport");
 const bcrypt        = require('bcrypt');
 const bodyParser = require('body-parser')
-
+var cons = require('consolidate');
 const flash         = require("express-flash");
 const User          = require("./models/User")
 const methodOverride = require("method-override");
@@ -30,7 +30,8 @@ initializePassport(
   }
 );
 
-app.set("view engine", "ejs");
+app.engine('html', require('ejs').renderFile, cons.swig);
+app.set('view engine', 'html');
 app.use('/uploads',express.static('uploads'))
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());
