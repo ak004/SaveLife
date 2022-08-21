@@ -527,7 +527,7 @@ router.post('/orginazation',checkAuthenticated, upload.fields([{
   const status = req.body.status
 
 
-  console.log(req.files.owner_img)
+  console.log("_+_+_+", req.files.logo);
   const floor_imagesss = new Array();
 
   image.forEach((imagess) => {
@@ -926,6 +926,19 @@ router.post('/dis_approve_org', checkAuthenticated,async (req, res) => {
 //   res.render('orgLandingPage');
 // })
 
+
+router.get('/org_home_page',async(req, res) => {
+
+  var _id = req.session.passport.user
+  User.findById(_id).then((uservalue) => {
+    var user_typpe = uservalue.type
+
+    res.render('org_home_page',{
+      user_typpe
+    }) 
+  })
+  res.render('org_home_page')
+} )
 
 
 
