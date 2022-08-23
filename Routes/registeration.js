@@ -350,7 +350,7 @@ router.get("/", checkAuthenticated, (req, res) => {
   router.delete("/logout",(req, res) => {
     console.log("here in logout");
     req.logOut();
-    res.redirect("/login");
+    res.redirect("/");
   });
 
   router.get("/catagories", checkAuthenticated, (req, res) => {

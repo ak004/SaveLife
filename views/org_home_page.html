@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>Organization</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -55,6 +55,14 @@ type="text/css">
 
 body{
     background-color: rgba(255, 255, 255, 0.459);
+}
+
+#hoverdiv:hover {
+    background-color:yellow;
+}
+
+#ptagg:hover {
+    color:black;
 }
 
 .navbar {
@@ -128,42 +136,38 @@ body{
 </head>
 
 <body>
- 
 
-
-    <!-- <nav class="navbar navbar-expand-lg navbar-light ">
-        <div class="container-fluid">
-            <img  class="logo" src="./lib/logo.jpeg" width="70px" height="59px" alt="">
-          <a class="navbar-brand" href="#">safe life charity</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Home
-                  <span class="visually-hidden">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">go to charity</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">go to report</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">donate now</a>
-              </li>
-             
-          </div>
-        </div>
-      </nav> -->
-
-
-
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-3">
+            <div class="col-sm-6 col-xl-4">
+                <div class=" rounded d-flex align-items-center justify-content-between p-4"id="hoverdiv">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 xog"id="ptagg">Go to charity</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4">
+                <div class=" rounded d-flex align-items-center justify-content-between p-4" id="hoverdiv">
+                    <i class="fa-solid fa-baby"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 xog" id="ptagg">Go to report</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4">
+                <div class=" rounded d-flex align-items-center justify-content-between p-4" id="hoverdiv" onclick="perfomrLogout()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 xog"id="ptagg">Go to report</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!-- Recent Sales End -->
+           </div>
 <div class="chart">
     
-            <!-- Sale & Revenue Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-6 col-xl-3">
@@ -204,7 +208,6 @@ body{
                     </div>
                 </div>
             </div>
-            <!-- Sale & Revenue End -->
 
 </div>
 
@@ -214,9 +217,8 @@ body{
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
                         <div class=" text-center rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0 topic">Worldwide Sales</h6>
-                                <a href="" class="show-all">Show All</a>
+                            <div class="">
+                               <center>  <h6 class="mb-0 topic">Charity Donation</h6> </center> 
                             </div>
                             <div id="donut-chart"></div>
                             <!-- <canvas id="worldwide-sales"></canvas> -->
@@ -224,13 +226,13 @@ body{
                         </div>
                     </div>
                     <div class="col-sm-12 col-xl-6">
-                        <div class="text-center rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0 topic">Salse & Revenue</h6>
-                                <a href="" class="show-all">Show All</a>
+                        <div class=" text-center rounded p-4">
+                            <div>
+                                 <center> <h6 class="mb-0 topic">Charity Donation</h6></center>
                             </div>
-                            <canvas id="myChart2" ></canvas>
-
+                            <div id="donut-chart"></div>
+                            <!-- <canvas id="worldwide-sales"></canvas> -->
+                            <canvas id="piechart" style="height: 200px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -244,9 +246,8 @@ body{
  <!-- Recent Sales Start -->
  <div class="container-fluid pt-4 px-4">
     <div class="bg-black text-center rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Recent Salse</h6>
-            <a href="" class="topic">Show All</a>
+        <div>
+            <center><h6 class="mb-0" style="color: white; size: 25px;">Recent Salse</h6> </center>
         </div>
         <div class="table-responsive" style="overflow: hidden;">
             <table class="table text-start align-middle  table-hover mb-0">
@@ -263,56 +264,55 @@ body{
                 <tbody>
                     <tr>
                        
-                        <td >01 Jan 2045</td>
-                        <td >jaariyah</td>
-                        <td >ali ahmed</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-warning" href="">Detail</a></td>
+                        <td style="color: white;" >01 Jan 2045</td>
+                        <td style="color: white;" >jaariyah</td>
+                        <td style="color: white;" >ali ahmed</td>
+                        <td style="color: white;" >$123</td>
+                        <td style="color: white;" >Paid</td>
+                        <td style="color: white;" ><a class="btn btn-sm btn-warning" href="">Detail</a></td>
                     </tr>
                     <tr>
                    
-                        <td>01 Jan 2045</td>
-                        <td>sadaqo</td>
-                        <td>abdal sharif</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-warning" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                       
-                        <td>01 Jan 2045</td>
-                        <td>jarihayah</td>
-                        <td>mascuud ali</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-warning" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                      
-                        <td>01 Jan 2045</td>
-                        <td>jaariyah</td>
-                        <td>habiba abdi</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-warning" href="">Detail</a></td>
+                        <td style="color: white;" >01 Jan 2045</td>
+                        <td style="color: white;" >sadaqo</td>
+                        <td style="color: white;" >abdal sharif</td>
+                        <td style="color: white;" >$123</td>
+                        <td style="color: white;" >Paid</td>
+                        <td style="color: white;" ><a class="btn btn-sm btn-warning" href="">Detail</a></td>
                     </tr>
                     <tr>
                    
-                        <td>01 Jan 2045</td>
-                        <td>sadaqo</td>
-                        <td>halima mohamed</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm  btn-warning" href="">Detail</a></td>
+                        <td style="color: white;" >01 Jan 2045</td>
+                        <td style="color: white;" >sadaqo</td>
+                        <td style="color: white;" >abdal sharif</td>
+                        <td style="color: white;" >$123</td>
+                        <td style="color: white;" >Paid</td>
+                        <td style="color: white;" ><a class="btn btn-sm btn-warning" href="">Detail</a></td>
+                    </tr>
+                    <tr>
+                   
+                        <td style="color: white;" >01 Jan 2045</td>
+                        <td style="color: white;" >sadaqo</td>
+                        <td style="color: white;" >abdal sharif</td>
+                        <td style="color: white;" >$123</td>
+                        <td style="color: white;" >Paid</td>
+                        <td style="color: white;" ><a class="btn btn-sm btn-warning" href="">Detail</a></td>
+                    </tr>
+                    <tr>
+                   
+                        <td style="color: white;" >01 Jan 2045</td>
+                        <td style="color: white;" >sadaqo</td>
+                        <td style="color: white;" >abdal sharif</td>
+                        <td style="color: white;" >$123</td>
+                        <td style="color: white;" >Paid</td>
+                        <td style="color: white;" ><a class="btn btn-sm btn-warning" href="">Detail</a></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<!-- Recent Sales End -->
-       </div>
+
 
 <br>
 <br>
@@ -324,13 +324,12 @@ body{
 
 
     <!-- Template Javascript -->
-
+    <%- include('footer') %>
     <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+
+
+const data = {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                 datasets: [{
                     label: '# of Votes',
                     data: [12, 19, 3, 5, 2, 3],
@@ -352,51 +351,61 @@ body{
                     ],
                     borderWidth: 1
                 }]
-            },
+    };
+
+    const config = {
+        type: 'bar',
+            data,
             options: {
+                legend: {
+      display: false,
+    },
                 scales: {
                     y: {
                         beginAtZero: true
                     }
                 }
             }
-        });
-        const ctx2 = document.getElementById('myChart2').getContext('2d');
-        const myChart2 = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+    };
+
+    const config2 = {
+        type: 'line',
+  data: data,
+  options: {
+    plugins: {
+      title: {
+        display: false,
+        text: 'Chart.js Stacked Line/Bar Chart'
+      },
+      legend: {
+      display: false,
+    },
+    },
+    scales: {
+      y: {
+        stacked: true
+      }
+    }
+  },
+    };
+
+    const myChart = new Chart(
+     document.getElementById('myChart'),
+    config
+    );
+    const piechart = new Chart(
+     document.getElementById('piechart'),
+     config2
+    );
+
+
+        // const ctx =
+        // const myChart = new Chart(ctx, {
+   
+        // });
+      
         </script>
+    
 
     <script>
 (function ($) {
@@ -459,150 +468,6 @@ body{
         nav : false
     });
 
-
-    // Worldwide Sales Chart
-    var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
-    var myChart1 = new Chart(ctx1, {
-        type: "bar",
-        data: {
-            labels: ["1month", "1week", "1day", "12H", "6H", "1H", "1M"],
-            datasets: [{
-                    label: "SO",
-                    data: [15, 30, 55, 65, 60, 80, 95],
-                    backgroundColor: "rgba(0, 156, 255, .7)"
-                },
-                {
-                    label: "america",
-                    data: [8, 35, 40, 60, 70, 55, 75],
-                    backgroundColor: "darkgoldenrod"
-                },
-                {
-                    label: "europe",
-                    data: [12, 25, 45, 55, 65, 70, 60],
-                    backgroundColor: "rgba(255, 255, 0, 0.5)"
-                }
-            ]
-            },
-        options: {
-            responsive: true
-        }
-    });
-
-
-    // Salse & Revenue Chart
-    var ctx2 = $("#salse-revenue").get(0).getContext("2d");
-    var myChart2 = new Chart(ctx2, {
-        type: "line",
-        data: {
-            labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
-            datasets: [{
-                    label: "companies",
-                    data: [15, 30, 55, 45, 70, 65, 85],
-                    backgroundColor: "rgba(255, 251, 0, 0.685)",
-                    fill: true
-                },
-                {
-                    label: "personal",
-                    data: [99, 135, 170, 130, 190, 180, 270],
-                    backgroundColor: "darkgoldenrod",
-                    fill: true
-                }
-            ]
-            },
-        options: {
-            responsive: true
-        }
-    });
-    
-
-
-    // Single Line Chart
-    var ctx3 = $("#line-chart").get(0).getContext("2d");
-    var myChart3 = new Chart(ctx3, {
-        type: "line",
-        data: {
-            labels: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
-            datasets: [{
-                label: "Salse",
-                fill: false,
-                backgroundColor: "rgba(0, 156, 255, .3)",
-                data: [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-
-    // Single Bar Chart
-    var ctx4 = $("#bar-chart").get(0).getContext("2d");
-    var myChart4 = new Chart(ctx4, {
-        type: "bar",
-        data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(0, 156, 255, .6)",
-                    "rgba(0, 156, 255, .5)",
-                    "rgba(0, 156, 255, .4)",
-                    "rgba(0, 156, 255, .3)"
-                ],
-                data: [55, 49, 44, 24, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-
-    // Pie Chart
-    var ctx5 = $("#pie-chart").get(0).getContext("2d");
-    var myChart5 = new Chart(ctx5, {
-        type: "pie",
-        data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(0, 156, 255, .6)",
-                    "rgba(0, 156, 255, .5)",
-                    "rgba(0, 156, 255, .4)",
-                    "rgba(0, 156, 255, .3)"
-                ],
-                data: [55, 49, 44, 24, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
-
-    // Doughnut Chart
-    var ctx6 = $("#doughnut-chart").get(0).getContext("2d");
-    var myChart6 = new Chart(ctx6, {
-        type: "doughnut",
-        data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
-            datasets: [{
-                backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(0, 156, 255, .6)",
-                    "rgba(0, 156, 255, .5)",
-                    "rgba(0, 156, 255, .4)",
-                    "rgba(0, 156, 255, .3)"
-                ],
-                data: [55, 49, 44, 24, 15]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
     
 })(jQuery);
 var myLineChart = new Chart(ctxL, {
@@ -651,6 +516,48 @@ var chart = bb.generate({
         },
         bindto: "#donut-chart",
       });
+
+    //   function perfomrLogout() {
+    //       $.ajax({
+    //      type: "DELETE",
+    //      cache: false,
+    //     contentType: false,
+    //     // dataType: 'json',
+    //     processData: false,
+    //      url: '/logout',
+    //      data: "", // serializes the form's elements.
+    //      success: function(data)
+    //      {
+    //        if(data === 'success'){
+    //         toastr.success('Successfully saved')
+    //         window.location = '/admin/newproperty'
+    //        }else if(data === 'error'){
+    //         toastr.error('Property already exist');
+    //         // window.location = '/admin/registrations'
+    //        }
+             
+    //      }
+    //    });
+    // }
+
+    function perfomrLogout() {
+      $.ajax({
+             type: "DELETE",
+             url: '/logout',
+             data: {_id: 0},
+            
+             success: function(data)
+             {
+               if(data === 'success'){
+                console.log("succsdsdf11111");
+     
+               }else if(data === 'error'){
+               }
+                 
+             }
+           });
+    }
+     
 
     </script>
 
