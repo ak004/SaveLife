@@ -23,6 +23,10 @@ const reportSchema = new mongoose.Schema({
     catagory_id: {
         type: mongoose.Schema.Types.ObjectId,
     },
+    status: {
+        type:String,
+        default: "active",
+    },
 
 
 }, {timestamps: true})

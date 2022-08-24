@@ -894,7 +894,6 @@ router.post('/dis_approve_org', checkAuthenticated,async (req, res) => {
         User.findByIdAndUpdate(req.body._id, {status: 1 },
           function (err, docs) {
           if (err){
-         
           }
             else{
               // res.render("../views/catagories.ejs");
@@ -939,6 +938,62 @@ router.get('/org_home_page',async(req, res) => {
   })
   res.render('org_home_page')
 } )
+
+router.get('/ViewReports', async(req, res) => {
+  var _id = req.session.passport.user
+  User.findById(_id).then((uservalue) => {
+    var user_typpe = uservalue.type
+       Reports.aggregate([
+              {
+                $lookup: {
+                    from: "catagories",
+                    localField: "catagory_id",
+                    foreignField: "_id",
+                    as: "catagories"
+
+                }
+            },
+
+            {
+                $unwind: "$catagories"
+            },
+
+            {
+              $lookup: {
+                  from: "organaizations",
+                  localField: "org_id",
+                  foreignField: "_id",
+                  as: "organaizations"
+
+              }
+          },
+
+          {
+              $unwind: "$organaizations"
+          },
+          {
+            $project:{
+              _id:1,
+              report:1,
+              discrition:1,
+              organaitazation: "$organaizations.name",
+              org_id:1,
+              catagory: "$catagories.type",
+              status:1
+            }
+          }
+
+
+            ],(err, report) => {
+              if(!err) {
+                res.render('../views/ViewReports.html', {
+                  report,
+                  user_typpe
+                })
+              }
+            })
+     })
+}) 
 
 
 
