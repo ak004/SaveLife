@@ -986,7 +986,6 @@ router.get('/ViewReports', async(req, res) => {
             }
           }
 
-
             ],(err, report) => {
               if(!err) {
                 res.render('../views/ViewReports.html', {
@@ -996,9 +995,27 @@ router.get('/ViewReports', async(req, res) => {
               }
             })
      })
-}) 
+}); 
 
 
+router.get('/test', (req, res) => {
+  res.render('tessttt');
+})
+
+router.post('/test',  upload.fields([{
+  name: 'logo', maxCount: 1
+}, 
+{
+  name: 'floor', maxCount: 10
+},
+{
+  name: 'owner_img', maxCount: 1
+},
+]),(req, res) => {
+  console.log(req.body);
+  console.log(req.files)
+  res.render('tessttt')
+})
 
 
 
