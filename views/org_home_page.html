@@ -357,14 +357,20 @@ const data = {
         type: 'bar',
             data,
             options: {
-                legend: {
+                plugins: {
+      title: {
+        display: false,
+        text: 'Chart.js Stacked Line/Bar Chart'
+      },
+      legend: {
       display: false,
     },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+    },
+    scales: {
+      y: {
+        stacked: true
+      }
+    }
             }
     };
 

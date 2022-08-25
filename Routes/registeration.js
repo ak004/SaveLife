@@ -201,13 +201,16 @@ router.get("/", checkAuthenticated, (req, res) => {
             {
               $group: {
                   _id: "$type",
-                  count: {$sum: 1},
+                  count: {$sum: "$current_price"},
+                  type: { $first: "$catagories.type"}
+                  
                   },
           },
           {
             $project: {
               catagory_name: "$type.type",
               count:1,
+              type:1,
     
                  },
     
@@ -222,8 +225,6 @@ router.get("/", checkAuthenticated, (req, res) => {
              })
           }
       })
-
-
 
       }else if (uservalue.status == 1) {
         res.render('pendingpage')
@@ -267,7 +268,6 @@ router.get("/", checkAuthenticated, (req, res) => {
       User.findById(_id).then((uservalue) => {
         if(uservalue.type === "admin"){
           var user_typpe = uservalue.type
-
           Chartiy.aggregate([
             {
                 $match:{
@@ -289,13 +289,16 @@ router.get("/", checkAuthenticated, (req, res) => {
               {
                 $group: {
                     _id: "$type",
-                    count: {$sum: 1},
+                    count: {$sum: "$current_price"},
+                    type: { $first: "$catagories.type"}
+                    
                     },
             },
             {
               $project: {
                 catagory_name: "$type.type",
                 count:1,
+                type:1,
       
                    },
       
