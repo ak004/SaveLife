@@ -104,10 +104,18 @@ router.get("/", checkAuthenticated, (req, res) => {
       //     user_typpe
       //    })
       // }else {
-        res.render('dashboard',{
-          charCat,
-          user_typpe
-         })
+        if(user_typpe == "admin") {
+          res.render('dashboard',{
+            charCat,
+            user_typpe
+           })
+        }else {
+          res.render('org_home_page', {
+            charCat,
+            user_typpe
+          })
+        }
+       
       // }
  
     }
@@ -140,6 +148,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
     var user_typpe = uservalue.type
+    var user_id = uservalue._id
       if(uservalue.type === "admin"){
         Catagory.find({ status: { $ne: 'suspend' } }, (err, Catagory) => {
           if (!err) {
@@ -148,7 +157,8 @@ router.get("/", checkAuthenticated, (req, res) => {
                 res.render('../views/chartiy_registration.html', {
                   Catagory,
                   Oraganizations,
-                  user_typpe
+                  user_typpe,
+                  user_id
               })
               }
             })
@@ -160,9 +170,15 @@ router.get("/", checkAuthenticated, (req, res) => {
         res.render('pendingpage')
       }else if (uservalue.status == 2) {
         res.render('org_home_page', {
-          Catagory,
-          Oraganizations,
-          user_typpe
+          charCat,
+          user_typpe,
+          user_id
+        })
+      }else if (uservalue.status == 3) {
+        res.render('org_home_page', {
+          charCat,
+          user_typpe,
+          user_id
         })
       }
     });
@@ -178,6 +194,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
     var user_typpe = uservalue.type
+    var user_id = uservalue._id
       if(uservalue.type === "admin"){
    
         Chartiy.aggregate([
@@ -229,9 +246,16 @@ router.get("/", checkAuthenticated, (req, res) => {
       }else if (uservalue.status == 1) {
         res.render('pendingpage')
       }else if (uservalue.status == 2) {
+        res.render('tessttt', {
+          charCat,
+          user_typpe,
+          user_id
+        })
+      }else if (uservalue.status == 3) {
         res.render('org_home_page', {
           charCat,
-          user_typpe
+          user_typpe,
+          user_id
         })
       }
     });
@@ -250,8 +274,14 @@ router.get("/", checkAuthenticated, (req, res) => {
       }else if (uservalue.status == 1) {
         res.render('pendingpage')
       }else if (uservalue.status == 2) {
+        res.render('tessttt', {
+          user_typpe,
+          user_id
+        })
+      }else if (uservalue.status == 3) {
         res.render('org_home_page', {
-          user_typpe
+          user_typpe,
+          user_id
         })
       }
     });
@@ -266,8 +296,11 @@ router.get("/", checkAuthenticated, (req, res) => {
     }),(req, res) => {
       var _id = req.session.passport.user
       User.findById(_id).then((uservalue) => {
+        var user_id = uservalue._id
+        console.log("user_id:   ", user_id);
         if(uservalue.type === "admin"){
           var user_typpe = uservalue.type
+         
           Chartiy.aggregate([
             {
                 $match:{
@@ -313,13 +346,19 @@ router.get("/", checkAuthenticated, (req, res) => {
                })
             }
         })
-        }else if (uservalue.status == 1) {
-          res.render('pendingpage')
-        }else if (uservalue.status == 2) {
-          res.render('org_home_page', {
-            user_typpe
-          })
-        }
+      }else if (uservalue.status == 1) {
+        res.render('pendingpage')
+      }else if (uservalue.status == 2) {
+        res.render('tessttt', {
+          user_typpe,
+          user_id
+        })
+      }else if (uservalue.status == 3) {
+        res.render('org_home_page', {
+          user_typpe,
+          user_id
+        })
+      }
       });
     }
   );
@@ -352,8 +391,12 @@ router.get("/", checkAuthenticated, (req, res) => {
   
   router.delete("/logout",(req, res) => {
     console.log("here in logout");
-    req.logOut();
-    res.redirect("/");
+    req.logout(function(err) {
+      if (err) { 
+        res.redirect('pagenotfound')
+       }
+      res.redirect('/');
+    });
   });
 
   router.get("/catagories", checkAuthenticated, (req, res) => {
@@ -929,7 +972,7 @@ router.post('/dis_approve_org', checkAuthenticated,async (req, res) => {
 // })
 
 
-router.get('/org_home_page',async(req, res) => {
+router.get('/org_home_page',checkAuthenticated,async(req, res) => {
 
   var _id = req.session.passport.user
   User.findById(_id).then((uservalue) => {
@@ -942,7 +985,7 @@ router.get('/org_home_page',async(req, res) => {
   res.render('org_home_page')
 } )
 
-router.get('/ViewReports', async(req, res) => {
+router.get('/ViewReports',checkAuthenticated, async(req, res) => {
   var _id = req.session.passport.user
   User.findById(_id).then((uservalue) => {
     var user_typpe = uservalue.type
@@ -998,11 +1041,19 @@ router.get('/ViewReports', async(req, res) => {
 }); 
 
 
-router.get('/test', (req, res) => {
-  res.render('tessttt');
+router.get('/test',checkAuthenticated, (req, res) => {
+  var _id = req.session.passport.user
+  User.findById(_id).then((uservalue) => {
+    var user_id = uservalue._id
+    console.log("user_iddddd: ", user_id);
+    res.render('tessttt', {
+      user_id
+    });
+
+  });
 })
 
-router.post('/test',  upload.fields([{
+router.post('/test',  checkAuthenticated, upload.fields([{
   name: 'logo', maxCount: 1
 }, 
 {
@@ -1014,8 +1065,108 @@ router.post('/test',  upload.fields([{
 ]),(req, res) => {
   console.log(req.body);
   console.log(req.files)
-  res.render('tessttt')
-})
+  const user_id = req.body.user_id
+  const name = req.body.org_name
+  const description = req.body.field3
+  const ownder_name = req.body.field2
+  const phone = req.body.phone_number
+  const contact = req.body.contact
+  const Address = req.body.address
+  const image = req.files.floor
+  const owner_img = req.files.owner_img
+  const logo_img = req.files.logo
+
+
+  console.log("_+_+_+", req.files.logo);
+  const floor_imagesss = new Array();
+
+  image.forEach((imagess) => {
+    var url = "";
+        var liner2 = "";
+        var image_name =tokenGenerator(29);
+        url = "./uploads/" + image_name + '.jpg';
+        liner2 = "uploads/" + image_name + '.jpg';
+        fs.readFile(imagess.path, function(err, data) {
+            fs.writeFile(url, data, 'binary', function(err) {});
+            // fs.unlink(req.files[0].path, function (err, file) {
+
+            // });
+        });
+        console.log("check------------", liner2);
+        floor_imagesss.push(liner2)
+  })
+  const owner_imagesss = new Array();
+
+  owner_img.forEach((imagess) => {
+    var url = "";
+        var liner2 = "";
+        var image_name =tokenGenerator(29);
+        url = "./uploads/" + image_name + '.jpg';
+        liner2 = "uploads/" + image_name + '.jpg';
+        fs.readFile(imagess.path, function(err, data) {
+            fs.writeFile(url, data, 'binary', function(err) {});
+            // fs.unlink(req.files[0].path, function (err, file) {
+
+            // });
+        });
+        console.log("check------------", liner2);
+        owner_imagesss.push(liner2)
+  })
+
+  const logo_imagesss = new Array();
+
+  logo_img.forEach((imagess) => {
+    var url = "";
+        var liner2 = "";
+        var image_name =tokenGenerator(29);
+        url = "./uploads/" + image_name + '.jpg';
+        liner2 = "uploads/" + image_name + '.jpg';
+        fs.readFile(imagess.path, function(err, data) {
+            fs.writeFile(url, data, 'binary', function(err) {});
+            // fs.unlink(req.files[0].path, function (err, file) {
+
+            // });
+        });
+        console.log("check------------", liner2);
+        logo_imagesss.push(liner2)
+  })
+
+  const OrganizationData   = new Oraganizations({
+     name,
+     description,
+     ownder_name,
+     phone,
+     contact,
+     Address,
+     user_id,
+     image:floor_imagesss ,
+     owner_image: owner_imagesss,
+     org_logo: logo_imagesss
+
+ })
+
+  OrganizationData.save().then(success => {
+     if(success) {
+      User.findByIdAndUpdate(user_id, { status: 3 }, function (err, docs) {
+          if (err){
+             console.log(err)
+            }
+            else{
+              var user_typpe = docs.type
+                console.log("Updated User : ", user_typpe);
+                res.render('org_home_page', {
+                  user_typpe
+                })
+              }
+      });
+
+    }else {
+      res.redirect('/tesstt', {
+        user_id
+      })
+    }
+  });
+});
 
 
 

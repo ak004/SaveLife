@@ -32,6 +32,10 @@ const organaizationSchema = new mongoose.Schema({
    status:{
         type: String,
         default: "active"
+},
+user_id: {
+    type: String,
+    default: ""
 }
 
 

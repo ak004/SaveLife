@@ -169,13 +169,14 @@ margin: 0px auto;
                   </div>
               </div>
               </div>
+        <input type="hidden" name="user_id" id="user_id" value="<%= user_id %>">
         <input type="text" name="org_name" id="org_name" placeholder="Organization Name *">
         <input type="text" name="field2" placeholder="Owner name *">
         <input type="number" name="phone_number" placeholder="number *">
         <input type="text" name="contact"  placeholder="contact *">
         <input type="text"  placeholder="Address *"  name="address" >     
         <label for="floor" class="label">Owner images</label>
-        <input id="file" class="fileupload_3 upload-input" type="file" name="owner_img" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+        <input type='file' name="owner_img" id="imageUpload2" accept=".png, .jpg, .jpeg" />
         
 
 
