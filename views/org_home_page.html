@@ -156,10 +156,13 @@ body{
                 </div>
             </div>
             <div class="col-sm-6 col-xl-4">
-                <form  id="logoutform"action="/logout" method="DELETE">
+                <form rm  id="logoutform"action="/logout" method="POST">
                     <input type="hidden" name="nonsense" value="nonsense" />
-                    <div class=" rounded d-flex align-items-center justify-content-between p-4"  id="hoverdiv">
-                       <button style="width: 100%; height: 500px;"> Logout</button>
+                    <div class=" rounded d-flex align-items-center justify-content-between p-4" id="hoverdiv">
+                        <i class="fa-solid fa-baby"></i>
+                        <div class="ms-3">
+                            <button type="submit" style="background-color: transparent; color: white; border: none;">Logout </button>
+                        </div>
                     </div>
                 </form>
                 

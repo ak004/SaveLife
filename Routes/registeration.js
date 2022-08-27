@@ -399,6 +399,12 @@ router.get("/", checkAuthenticated, (req, res) => {
     });
   });
 
+
+  router.post('/logout', (req, res) => {
+    req.logOut();
+    res.redirect('/');
+  })
+
   router.get("/catagories", checkAuthenticated, (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
@@ -854,7 +860,7 @@ router.post('/add_report',checkAuthenticated, upload.fields([{
                      
                       Reportss.save().then(success => {
                           // res.redirect('/admin/registrations')
-                          res.redirect('../views/AddReports.html')
+                          res.redirect('/AddReports')
                       }).catch(err => {
                           console.log('Error', err)
                       })
@@ -1168,6 +1174,51 @@ router.post('/test',  checkAuthenticated, upload.fields([{
   });
 });
 
+router.post('/changereportstatus', (req, res) => {
+  console.log('the logsssss', req.body);
+  if(req.body.status === "active") {
+    Reports.findByIdAndUpdate(req.body.report_id, { status: "suspend" }, function (err, docs) {
+      if (err){
+         console.log(err)
+        }
+        else{
+            res.redirect('/ViewReports')
+          }
+  });
+  }else {
+    Reports.findByIdAndUpdate(req.body.report_id, { status: "active" }, function (err, docs) {
+      if (err){
+         console.log(err)
+        }
+        else{
+            res.redirect('/ViewReports')
+          }
+  });
+  }
+})
+
+router.post('/ChangeCharityStatus', (req, res) => {
+  console.log('the logsssss', req.body);
+  if(req.body.status === "active") {
+    Chartiy.findByIdAndUpdate(req.body.charity_id, { status: "suspend" }, function (err, docs) {
+      if (err){
+         console.log(err)
+        }
+        else{
+            res.redirect('/ViewCharity')
+          }
+  });
+  }else {
+    Chartiy.findByIdAndUpdate(req.body.charity_id, { status: "active" }, function (err, docs) {
+      if (err){
+         console.log(err)
+        }
+        else{
+            res.redirect('/ViewCharity')
+          }
+  });
+  }
+})
 
 
 

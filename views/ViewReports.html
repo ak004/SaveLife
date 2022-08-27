@@ -27,6 +27,7 @@
                                         <th>Catagory</th>
                                         <!-- <th>Created on</th> -->
                                         <th>org name</th>
+                                        <th>Action</th>
    
                                     </tr>
                                 </thead>
@@ -37,9 +38,20 @@
                                             <td><%= rpt.report %></td>
                                             <td><%= rpt.catagory %></td>
                                             <td><%= rpt.organaitazation %></td>
-                              
-
                                             <td>
+                                                <% if(rpt.status === "active") { %>
+                                                        <form action="/changereportstatus" method="post">
+                                                            <input type="hidden" name="status" value="active" /> 
+                                                            <input type="hidden" name="report_id" value="<%= rpt._id %>" /> 
+                                                                <button type="submit"  class="btn btn-primary"> active</button>
+                                                        </form>
+                                                    <% } else { %>
+                                                        <form action="/changereportstatus" method="post">
+                                                            <input type="hidden" name="status" value="suspend" /> 
+                                                            <input type="hidden" name="report_id" value="<%= rpt._id %>" /> 
+                                                                <button type="submit"  class="btn btn-danger"> Suspended</button>
+                                                        </form>
+                                                        <% } %>
                                             </td>
                                         </tr>
                                         <% }) %>

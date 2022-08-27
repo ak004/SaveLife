@@ -465,7 +465,7 @@ router.post('/delete_review', (req, res) => {
 
 // to get reports
 router.post('/get_reports', (req, res) => {
-    Reports.find({}, (err, reports) => {
+    Reports.find({status: "active"}, (err, reports) => {
         if(!err) {
             res.send({
                 success: true,
@@ -808,23 +808,46 @@ router.post('/paymentbyuser', async(req, res) => {
             $unwind: "$catagories"
         },
         {
-            $project:{
-                _id:1,
-                type:"$catagories.type",
-                amount:1,
-                charaty_id:1,
-                createdAt: 1,
-                User_id:1,
-                updatedAt:1
-            }
-        }
+            $group: {
+                _id: "$User_id",
+                Total_amount: {$sum: "$amount"},
+                type: { $first: "$catagories.type"},
+                payments: {
+                    $push: { 
+                        _id: "$_id",
+                        amount: "$amount",
+                        charaty_id: "$charaty_id",
+                        createdAt: "$createdAt",
+                        User_id: "$User_id",
+                        updatedAt: "$updatedAt",
+                        amount: "$amount",
+                        type: "$catagories.type"
+                          }
+                        }
+                },
+        },
+        // {
+        //     $project:{
+        //         _id:1,
+        //         type:"$catagories.type",
+        //         amount:1,
+        //         charaty_id:1,
+        //         createdAt: 1,
+        //         User_id:1,
+        //         updatedAt:1
+        //     }
+        // }
    
-    ], (err, payments) => {
+    ], (err, paymentss) => {
+        var payments = paymentss[0].payments;
+        var Total_amount = paymentss[0].Total_amount;
         if(!err){
         res.send({
             success:true,
             record:{
-                payments
+                payments,
+                Total_amount
+
             }
         })
         }

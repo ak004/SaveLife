@@ -38,9 +38,11 @@
                                             <td><%= org_user.type %></td>
                                             <td>
                                                 <% if(org_user.status == 1) { %>
-                                                    pending
+                                                    Pending
                                               <%  } else if (org_user.status == 2) {%> 
-                                                    approved
+                                                    Approved
+                                                    <%  } else if (org_user.status == 3) {%> 
+                                                        Registered
                                               <% } %>
                                             
                                             </td>
@@ -51,7 +53,8 @@
 
                                               <%  } else if (org_user.status == 2) {%> 
                                                 <button type="button" class="btn btn-danger" onclick="disapprove_org('<%= org_user._id %>')"> Disapprove</button>
-
+                                                <%  } else if (org_user.status == 3) {%> 
+                                                    <button type="button" class="btn btn-secondary"> Registered</button>
                                               <% } %>
                                             </td>
                                         </tr>

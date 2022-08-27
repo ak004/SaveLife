@@ -29,6 +29,7 @@
                                         <th>org name</th>
                                         <th>current price</th>
                                         <th>need amount</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,7 +43,19 @@
                                             <td><%= char.des_price %></td>
 
                                             <td>
-                                                <!-- <button onclick="update_unit_modal('<%= char._id %>','<%= char.catagory %>','<%= char.status %>');" type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button> -->
+                                                <% if(char.status === "active") { %>
+                                                    <form action="/ChangeCharityStatus" method="post">
+                                                        <input type="hidden" name="status" value="active" /> 
+                                                        <input type="hidden" name="charity_id" value="<%= char._id %>" /> 
+                                                            <button type="submit"  class="btn btn-primary"> active</button>
+                                                    </form>
+                                                <% } else { %>
+                                                    <form action="/ChangeCharityStatus" method="post">
+                                                        <input type="hidden" name="status" value="suspend" /> 
+                                                        <input type="hidden" name="charity_id" value="<%= char._id %>" /> 
+                                                            <button type="submit"  class="btn btn-danger"> Suspended</button>
+                                                    </form>
+                                                    <% } %>
                                             </td>
                                         </tr>
                                         <% }) %>
