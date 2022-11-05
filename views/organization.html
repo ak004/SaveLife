@@ -82,19 +82,13 @@ margin: 0px auto;
       
                     <div class="row">
 
-                      <!-- <div class="col-md-4">
-                        <label class="label"> Organization Logo</label>
-                        <div class="holdimgg">
-                          <img class="card" style="width: 10rem; height: 100px;" src="/images/imgholder.jpg" >
-                          <input id="files" class="fileupload_2 upload-input" type="file" name="logo" multiple accept=".pdf,.doc,.docx,.jpg,.png" required >
-                        </div>
-
-
-                      </div> -->
-                      <div class="col-md-3">
+                      <div class="col-md-12">
                         <div class="avatar-upload">
+                          <center>
+                            <label class="form-label">LOGO</label>
+                          </center>
                           <div class="avatar-edit">
-                              <input type='file' name="logo" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                              <input type='file' name="logo" id="imageUpload" accept=".png, .jpg, .jpeg" required>
                               <label for="imageUpload"></label>
                           </div>
                           <div class="avatar-preview">
@@ -106,107 +100,85 @@ margin: 0px auto;
                       </div>
              
 
-                        <div class="col-md-6 mb-6" style="margin-top: 50px;">
+                      
+
+                        <div class="row" style="margin-top: 20px;">
+                          <div class="col-md-6 mb-6"  >
       
                             <div class="form-outline">
                               <label class="form-label" for="titles">Organizations Name</label>
-                              <input type="text" id="Organizations_name" name="Organizations_name" class="form-control form-control-lg" />
+                              <input type="text" id="Organizations_name" name="Organizations_name" class="form-control form-control" required>
                             </div>
                         </div>
-
-                    <div class="form-group">
-                      <label for="Descriptionss">Description</label>
-                      <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3"></textarea>
-                    </div>
-
-                    <div class="row">
-                      
-                      <div class="col-md-3">
-                        <label class="label"> Organization owner image</label>
-                        <div class="holdimgg">
-                          <img class="card" style="width: 10rem; height: 100px;" src="/images/imgholder.jpg" >
-                          <input id="files" class="fileupload_3 upload-input" type="file" name="owner_img" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
-                        </div>
-
-
-                      </div>
-
-                        <div class="col-md-5 mb-4" style="margin-top: 55px;">
+                        <div class="col-md-6 mb-6"  >
         
                           <div class="form-outline">
-                            <input class="form-control txt_err rooms" type="text" id="owner_name" name="owner_name" required>
                             <label class="form-label" for="firstName">Owner name</label>
+                            <input class="form-control txt_err rooms" type="text" id="owner_name" name="owner_name" required>
                           </div>
         
                         </div>
-                        <div class="col-md-4 mb-4"style="margin-top: 55px;">
+
+                        </div>
+
+
+                        <div class="row" style="margin-top: 20px;">
+                          <div class="col-md-6 mb-6"  >
+      
+                            <div class="form-outline">
+                              <label class="form-label" for="lastName">phone number</label>
+                            <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="phone_number" name="phone_number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-6"  >
         
                           <div class="form-outline">
-                            <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="phone_number" name="phone_number" required>
-                            <label class="form-label" for="lastName">phone number</label>
+                            <label class="form-label" for="firstName">contact</label>
+                            <input class="form-control txt_err rooms"  type="text" id="contact" name="contact" required>
                           </div>
         
                         </div>
-                      </div>
-                
 
+                        </div>
 
-                  <div class="row">
-                    <div class="col-md-6 mb-4" style="margin-top: 15px;">
-    
-                      <div class="form-outline">
-                        <input class="form-control txt_err rooms"  type="text" id="contact" name="contact" required>
-                        <label class="form-label" for="firstName">contact</label>
-                      </div>
-    
-                    </div>
-                    <div class="col-md-6 mb-4"style="margin-top: 15px;">
-    
-                      <div class="form-outline">
-                        <input class="form-control txt_err rooms" type="text" id="address" name="address" required>
-                        <label class="form-label" for="lastName">Address</label>
-                      </div>
-    
-                    </div>
-                  </div>
-    
-                  <div class="row">
+                        <div class="row" style="margin-top: 20px;">
+                          <div class="col-md-6">
+                          <label class="form-label" for="owner_img">Owner Images</label>
+                          <input type="file" name="owner_img" id="files"  class="form-control" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+                          </div>
+                          <div class="col-md-6">
+                          <label class="form-label" for="floor">Oraganization Images</label>
+                          <input type="file" name="floor" id="files"  class="form-control" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+                          </div>
+                        </div>
+ 
 
-                    <div class="col-md-6 mb-4">
-    
-                      <select class="select form-control-lg need_type " name="status" id="status" style="width: 350px;">
-                        <option value="">status</option>
-                          <option value="active">active</option>
-                          <option value="Suspend">Suspend</option>
-                        </select>
-                        <label class="form-label select-label" style="margin-left: 15px;">Status</label>
-                    </div>
+                 <div class="row" style="margin-top: 20px;">
+                  <div class="col-md-6">
+                    <div class="form-outline">
+                      <label class="form-label" for="address">Address</label>
+                      <input class="form-control txt_err rooms" type="text" id="address" name="address" required>
+
+                      </div>
                   </div>
 
-
-                  <div class="row">
-                    <div class="col-sm-12 col-md-2">
-                        <div class="form-group hand_1">
-                            <label for="floor" class="label">Organizations images</label>
-                            <div class="dropzone hand_1">
-                                <img src="/images/zupld.png" class="upload-icon hand_1" />
-                                <input id="files" class="fileupload_1 upload-input" type="file" name="floor" multiple accept=".pdf,.doc,.docx,.jpg,.png"required >
-                            </div>
-                            <label class="lbl_err property_img">property image is require</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-10">
-                        <label for="images_1" class="label" style="height: 100px; width: 100px">uploaded images</label>
-                        <div class="dropzone mdf w-100">
-                            <div id="uploaded_images_1" class="row"> </div>
-                        </div>
-                    </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="status">Status</label>
+                    <select class="select form-control" name="status" id="status">
+                      <option value="">status</option>
+                        <option value="active">active</option>
+                        <option value="Suspend">Suspend</option>
+                      </select>
+                  </div>
                  </div>
-    
 
-
+ 
 
                   
+                 <div class="form-group">
+                  <label for="Descriptionss">Description</label>
+                  <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3" required></textarea>
+                </div>
     
             
     

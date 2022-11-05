@@ -1,23 +1,178 @@
 <%- include('header') %>
 
+<style>
+
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+ 
+ 
+
+#ptagg:hover {
+ color:black;
+}
+ 
+
+
+ i{
+     color: darkgoldenrod;
+     font-size: 2.4rem;
+ }
+
+ .chart{
+     position: relative;
+     top: 30px;
+ }
+
+
+.chart2{
+ position: relative;
+ top: 40px;
+}
+
+
+.rounded{
+ box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.562);
+ background-color: black;
+}
+
+.xog{
+ color: white;
+}
+
+.count{
+ color:gray;
+}
+
+.topic{
+ color: gray;
+}
+
+.show-all{
+ color: rgba(255, 255, 0, 0.5);
+}
+.show-all:hover{
+ color: gray;
+}
+
+.table{
+ position: relative;
+ top: 50px;
+}
+
+ 
+ 
+
+</style>
 <h2>Dashboard </h2>
 
 
 <div class="row">
+
+  <div class="chart">
+    
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class=" rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 xog">Today donation</p>
+                        <h6 class="mb-0 count">$1234</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class=" rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa-solid fa-baby"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 xog">child covered</p>
+                        <h6 class="mb-0 count">234</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class=" rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa-solid fa-people-roof"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 xog">benefiting families</p>
+                        <h6 class="mb-0 count">23/334</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class=" rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 xog">Total donors</p>
+                        <h6 class="mb-0 count">244/834</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 
   <% charCat.forEach(function(char){ %>
 
   <div class="col-md-4">
     <div class="card text-white bg-primary" style="max-width: 18rem; margin-top: 50px; ">
       <div class="card-header"><%= char.type %></div>
       <div class="card-body">
-           
+            
           <p class="card-text" style="text-align: center; font-size: 20px;">
           donated: <%= char.count %>$
                 </p>
       </div>
     </div>
   </div>
-  <% }) %>
+  <% }) %> -->
+
+  <div class="chart2">
+    <!-- Sales Chart Start -->
+    <div class="container-fluid pt-4 px-4">
+     <div class="row g-4">
+         <div class="col-sm-12 col-xl-6">
+             <div class=" text-center rounded p-4">
+                 <div class="">
+                    <center>  <h6 class="mb-0 topic">Charity Donation</h6> </center> 
+                 </div>
+                 <div id="donut-chart"></div>
+                 <!-- <canvas id="worldwide-sales"></canvas> -->
+                 <canvas id="myChart" ></canvas>
+             </div>
+         </div>
+         <div class="col-sm-12 col-xl-6">
+             <div class=" text-center rounded p-4">
+                 <div>
+                      <center> <h6 class="mb-0 topic">Charity Donation</h6></center>
+                 </div>
+                 <div id="donut-chart"></div>
+                 <!-- <canvas id="worldwide-sales"></canvas> -->
+                 <canvas id="piechart" style="height: 200px;"></canvas>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- Sales Chart End -->
+
+</div>
+
+  <% if(charCat.length == 0) {%>
+<div class="row">
+  <center>
+    <div class="col-md-12">
+      <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"> There are no charity</p>
+    </div>
+
+  </center>
+</div>
+    <%}%>
   <!-- <div class="col-md-4">
     <div class="card text-white bg-primary" style="max-width: 18rem; ">
       <div class="card-header">Charaity given</div>
@@ -43,6 +198,72 @@
     </div>
   </div> -->
 
+  <div class="table">
+ 
+    <div class="container-fluid pt-4 px-4">
+       <div class="bg-black text-center rounded p-4">
+           <div>
+               <center><h6 class="mb-0" style="color: white; size: 25px;">Recent Sales</h6> </center>
+           </div>
+           <div class="table-responsive" style="overflow: hidden;">
+               <table class="table text-start align-middle  table-hover mb-0">
+                   <thead>
+                       <tr class="text-white">
+                           <th scope="col">Date</th>
+                           <th scope="col">Charity</th>
+                           <th scope="col">Person</th>
+                           <th scope="col">Amount</th>
+                           <th scope="col">Status</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr>
+                          
+                           <td style="color: white;" >01 nov 2022</td>
+                           <td style="color: white;" >jaariyah</td>
+                           <td style="color: white;" >ali ahmed</td>
+                           <td style="color: white;" >$23</td>
+                           <td style="color: white;" >Paid</td>
+                       </tr>
+                       <tr>
+                      
+                           <td style="color: white;" >01 nov 2022</td>
+                           <td style="color: white;" >sadaqo</td>
+                           <td style="color: white;" >abdal sharif</td>
+                           <td style="color: white;" >$13</td>
+                           <td style="color: white;" >Paid</td>
+                       </tr>
+                       <tr>
+                      
+                           <td style="color: white;" >01 nov 2022</td>
+                           <td style="color: white;" >sadaqo</td>
+                           <td style="color: white;" >mohamed ali hassan</td>
+                           <td style="color: white;" >$5</td>
+                           <td style="color: white;" >Paid</td>
+                       </tr>
+                       <tr>
+                      
+                           <td style="color: white;" >27 oct 2022</td>
+                           <td style="color: white;" >sadaqo</td>
+                           <td style="color: white;" >xaliimo abdi</td>
+                           <td style="color: white;" >$3</td>
+                           <td style="color: white;" >Paid</td>
+                       </tr>
+                       <tr>
+                      
+                           <td style="color: white;" >26 oct 2022</td>
+                           <td style="color: white;" >sadaqo</td>
+                           <td style="color: white;" >abdiqafur</td>
+                           <td style="color: white;" >$22</td>
+                           <td style="color: white;" >Paid</td>
+                       </tr>
+                   </tbody>
+               </table>
+           </div>
+       </div>
+   </div>
+   </div>
+
 </div>
 
 
@@ -50,3 +271,246 @@
 
 
 <%- include('footer') %> 
+
+
+<script>
+
+
+  const data = {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                  datasets: [{
+                      label: '# of Votes',
+                      data: [12, 19, 3, 5, 2, 3],
+                      backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 206, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(255, 159, 64, 0.2)'
+                      ],
+                      borderColor: [
+                          'rgba(255, 99, 132, 1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(153, 102, 255, 1)',
+                          'rgba(255, 159, 64, 1)'
+                      ],
+                      borderWidth: 1
+                  }]
+      };
+  
+      const config = {
+          type: 'bar',
+              data,
+              options: {
+                  plugins: {
+        title: {
+          display: false,
+          text: 'Chart.js Stacked Line/Bar Chart'
+        },
+        legend: {
+        display: false,
+      },
+      },
+      scales: {
+        y: {
+          stacked: true
+        }
+      }
+              }
+      };
+  
+      const config2 = {
+          type: 'line',
+    data: data,
+    options: {
+      plugins: {
+        title: {
+          display: false,
+          text: 'Chart.js Stacked Line/Bar Chart'
+        },
+        legend: {
+        display: false,
+      },
+      },
+      scales: {
+        y: {
+          stacked: true
+        }
+      }
+    },
+      };
+  
+      const myChart = new Chart(
+       document.getElementById('myChart'),
+      config
+      );
+      const piechart = new Chart(
+       document.getElementById('piechart'),
+       config2
+      );
+  
+  
+          // const ctx =
+          // const myChart = new Chart(ctx, {
+     
+          // });
+        
+          </script>
+      
+  
+      <script>
+  (function ($) {
+      "use strict";
+  
+      // Spinner
+      var spinner = function () {
+          setTimeout(function () {
+              if ($('#spinner').length > 0) {
+                  $('#spinner').removeClass('show');
+              }
+          }, 1);
+      };
+      spinner();
+      
+      
+      // Back to top button
+      $(window).scroll(function () {
+          if ($(this).scrollTop() > 300) {
+              $('.back-to-top').fadeIn('slow');
+          } else {
+              $('.back-to-top').fadeOut('slow');
+          }
+      });
+      $('.back-to-top').click(function () {
+          $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+          return false;
+      });
+  
+  
+      // Sidebar Toggler
+      $('.sidebar-toggler').click(function () {
+          $('.sidebar, .content').toggleClass("open");
+          return false;
+      });
+  
+  
+      // Progress Bar
+      $('.pg-bar').waypoint(function () {
+          $('.progress .progress-bar').each(function () {
+              $(this).css("width", $(this).attr("aria-valuenow") + '%');
+          });
+      }, {offset: '80%'});
+  
+  
+      // Calender
+      $('#calender').datetimepicker({
+          inline: true,
+          format: 'L'
+      });
+  
+  
+      // Testimonials carousel
+      $(".testimonial-carousel").owlCarousel({
+          autoplay: true,
+          smartSpeed: 1000,
+          items: 1,
+          dots: true,
+          loop: true,
+          nav : false
+      });
+  
+      
+  })(jQuery);
+  var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [
+        {
+          label: "My First dataset",
+          data: [0, 65, 45, 65, 35, 65, 0],
+          backgroundColor: '#AD35BA',
+          borderColor: [
+            '#AD35BA',
+          ],
+          borderWidth: 2,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "rgba(173, 53, 186, 0.1)",
+        }
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  })
+  
+  var chart = bb.generate({
+          data: {
+            columns: [
+              ["Blue", 2],
+              ["orange", 4],
+              ["green", 3],
+            ],
+            type: "donut",
+            onclick: function (d, i) {
+              console.log("onclick", d, i);
+            },
+            onover: function (d, i) {
+              console.log("onover", d, i);
+            },
+            onout: function (d, i) {
+              console.log("onout", d, i);
+            },
+          },
+          donut: {
+            title: "70",
+          },
+          bindto: "#donut-chart",
+        });
+  
+      //   function perfomrLogout() {
+      //       $.ajax({
+      //      type: "DELETE",
+      //      cache: false,
+      //     contentType: false,
+      //     // dataType: 'json',
+      //     processData: false,
+      //      url: '/logout',
+      //      data: "", // serializes the form's elements.
+      //      success: function(data)
+      //      {
+      //        if(data === 'success'){
+      //         toastr.success('Successfully saved')
+      //         window.location = '/admin/newproperty'
+      //        }else if(data === 'error'){
+      //         toastr.error('Property already exist');
+      //         // window.location = '/admin/registrations'
+      //        }
+               
+      //      }
+      //    });
+      // }
+  
+      function perfomrLogout() {
+        $.ajax({
+               type: "DELETE",
+               url: '/logout',
+               data: {_id: 0},
+              
+               success: function(data)
+               {
+                 if(data === 'success'){
+                  console.log("succsdsdf11111");
+       
+                 }else if(data === 'error'){
+                 }
+                   
+               }
+             });
+      }
+       
+  
+      </script>

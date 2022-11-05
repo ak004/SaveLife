@@ -105,6 +105,7 @@ router.get("/", checkAuthenticated, (req, res) => {
       //    })
       // }else {
         if(user_typpe == "admin") {
+          
           res.render('dashboard',{
             charCat,
             user_typpe
@@ -132,9 +133,6 @@ router.get("/", checkAuthenticated, (req, res) => {
 
   router.get("/login", checkNotAuthenticated, (req, res) => {
     res.render("login");
-
-
-
   });
   
   // router.get("/catagories", checkNotAuthenticated, (req, res) => {
@@ -149,7 +147,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     User.findById(_id).then((uservalue) => {
     var user_typpe = uservalue.type
     var user_id = uservalue._id
-      if(uservalue.type === "admin"){
+      if(uservalue.type === "admin" && uservalue.status == 1){
         Catagory.find({ status: { $ne: 'suspend' } }, (err, Catagory) => {
           if (!err) {
             Oraganizations.find({}, (err,Oraganizations) => {
@@ -166,20 +164,8 @@ router.get("/", checkAuthenticated, (req, res) => {
             console.log('Error', err)
           }
         });
-      }else if (uservalue.status == 1) {
-        res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('org_home_page', {
-          charCat,
-          user_typpe,
-          user_id
-        })
-      }else if (uservalue.status == 3) {
-        res.render('org_home_page', {
-          charCat,
-          user_typpe,
-          user_id
-        })
+        res.render('pendingpage')
       }
     });
 
@@ -195,7 +181,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     User.findById(_id).then((uservalue) => {
     var user_typpe = uservalue.type
     var user_id = uservalue._id
-      if(uservalue.type === "admin"){
+      if(uservalue.type === "admin"&& uservalue.status == 1){
    
         Chartiy.aggregate([
           {
@@ -243,20 +229,8 @@ router.get("/", checkAuthenticated, (req, res) => {
           }
       })
 
-      }else if (uservalue.status == 1) {
-        res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('tessttt', {
-          charCat,
-          user_typpe,
-          user_id
-        })
-      }else if (uservalue.status == 3) {
-        res.render('org_home_page', {
-          charCat,
-          user_typpe,
-          user_id
-        })
+        res.render('pendingpage')
       }
     });
     
@@ -266,7 +240,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
       var user_typpe = uservalue.type
-      if(uservalue.type === "admin"){
+      if(uservalue.type === "admin" && uservalue.status == 1){
         res.render('../views/organization.html', {
           user_typpe
         });
@@ -298,7 +272,7 @@ router.get("/", checkAuthenticated, (req, res) => {
       User.findById(_id).then((uservalue) => {
         var user_id = uservalue._id
         console.log("user_id:   ", user_id);
-        if(uservalue.type === "admin"){
+        if(uservalue.type === "admin" && uservalue.status == 1 ){
           var user_typpe = uservalue.type
          
           Chartiy.aggregate([
@@ -346,18 +320,8 @@ router.get("/", checkAuthenticated, (req, res) => {
                })
             }
         })
-      }else if (uservalue.status == 1) {
-        res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('tessttt', {
-          user_typpe,
-          user_id
-        })
-      }else if (uservalue.status == 3) {
-        res.render('org_home_page', {
-          user_typpe,
-          user_id
-        })
+        res.render('pendingpage')
       }
       });
     }
@@ -376,8 +340,8 @@ router.get("/", checkAuthenticated, (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: hashedPassword,
-          type: "org_user",
-          status: 1
+          type: "admin",
+          status: 2
         });
   
         await user.save();
@@ -409,7 +373,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
       var user_typpe = uservalue.type
-      if(uservalue.type === "admin"){
+      if(uservalue.type === "admin" && uservalue.status == 1){
         Catagory.find({}, (err, Catagory) => {
           if (!err) {
             Oraganizations.find({}, (err,Oraganizations) => {
@@ -426,13 +390,9 @@ router.get("/", checkAuthenticated, (req, res) => {
           }
         })
 
-      }else if (uservalue.status == 1) {
-        res.render('pendingpage')
       }else if (uservalue.status == 2) {
-        res.render('org_home_page', {
-          user_typpe
-        })
-      }
+        res.render('pendingpage')
+      } 
     });
 
   })
@@ -544,7 +504,7 @@ router.post('/charty_item',checkAuthenticated, upload.array('floor'),(req, res) 
 
  ChartiyData.save().then(success => {
      // res.redirect('/admin/registrations')
-     res.redirect('/chartiy_registration')
+     res.redirect('/ViewCharity')
  }).catch(err => {
      console.log('Error', err)
  })
@@ -729,6 +689,59 @@ router.get('/ViewCharity',checkAuthenticated,  async (req, res) => {
 
 })
 
+router.get('/vieworganization',checkAuthenticated,  async (req, res) => {
+
+
+  var _id = req.session.passport.user
+  User.findById(_id).then((uservalue) => {
+    if(uservalue.type === "admin"){
+      var user_typpe = uservalue.type
+      Oraganizations.aggregate([
+        {
+          $lookup: {
+              from: "chartiys",
+              localField: "_id",
+              foreignField: "organaitazation",
+              as: "charityy"
+          }
+      },
+
+    // {
+    //   $project:{
+    //     _id:1,
+    //     type:1,
+    //     des_price:1,
+    //     title:1,
+    //     organaitazation: "$organaitazation.name",
+    //     end_date:1,
+    //     current_price:1,
+    //     catagory: "$catagories.type",
+    //     status:1
+    //   }
+    // }
+  
+  
+      ],(err, orgs) => {
+        if(!err) {
+          res.render('../views/view_organization.html', {
+            orgs,
+            user_typpe
+          })
+        }
+      })
+    }else if (uservalue.status == 1) {
+      res.render('pendingpage')
+    }else if (uservalue.status == 2) {
+      res.render('org_home_page', {
+        user_typpe
+      })
+    }
+  });
+
+
+
+})
+
 router.get("/AddReports",checkAuthenticated, (req, res) => {
 
   var _id = req.session.passport.user
@@ -860,7 +873,7 @@ router.post('/add_report',checkAuthenticated, upload.fields([{
                      
                       Reportss.save().then(success => {
                           // res.redirect('/admin/registrations')
-                          res.redirect('/AddReports')
+                          res.redirect('/ViewReports')
                       }).catch(err => {
                           console.log('Error', err)
                       })
@@ -878,7 +891,7 @@ router.get('/Org_users', checkAuthenticated, (req, res) => {
       User.aggregate([
         {
           $match:{
-              type: {$eq: "org_user"}
+              type: {$eq: "admin"}
           },
       },
       ], (err,org_users) => {
@@ -1215,6 +1228,30 @@ router.post('/ChangeCharityStatus', (req, res) => {
         }
         else{
             res.redirect('/ViewCharity')
+          }
+  });
+  }
+})
+
+router.post('/ChangeorgStatus', (req, res) => {
+  console.log('the logsssss', req.body);
+  if(req.body.status === "active") {
+    Oraganizations.findByIdAndUpdate(req.body.org_id, { status: "suspend" }, function (err, docs) {
+      if (err){ 
+
+         console.log(err)
+        }
+        else{
+            res.redirect('/vieworganization')
+          }
+  });
+  }else {
+    Oraganizations.findByIdAndUpdate(req.body.org_id, { status: "active" }, function (err, docs) {
+      if (err){
+         console.log(err)
+        }
+        else{
+            res.redirect('/vieworganization')
           }
   });
   }

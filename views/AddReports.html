@@ -16,21 +16,69 @@
 
 
                     <div class="row">
-                        <div class="col-12">
-                          <select class="form-control2 catagories_type" name="catagories_type" id="catagories_type" required>
-                            <option value="">Select</option>
-                            <% catagory.forEach(region =>{ %>
-                                <option value="<%= region._id %>"><%= region.type %></option>
-                           <% }) %>
-                        </select>
-                          <label class="form-label select-label">Select Catagory</label>
-        
+                      <div class="col-md-6">
+                        <div class="form-outline"> 
+                        <label class="form-label select-label" for="catagories_type">Select Catagory</label>
+                        <select class="select form-control catagories_type" name="catagories_type" id="catagories_type" required>
+                          <option value="">Select</option>
+                          <% catagory.forEach(region =>{ %>
+                              <option value="<%= region._id %>"><%= region.type %></option>
+                         <% }) %>
+                      </select>
+                    </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-outline">
+                          <label class="form-label" for="titles">Title</label>
+                          <input type="text" id="titles" name="titles" class="form-control form-control-md" required>
                         </div>
                       </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 10px;">
+               
+                      <div class="col-md-6 mb-4" >
+     
+                       <div class="form-outline">
+                         <label class="form-label select-label" for="Oraganizations">Organization</label>
+                         <select class="select form-control" name="Oraganizations" id="Oraganizations"   required>
+                           <option value="">Organizations</option>
+                           <% organaitazationss.forEach(region =>{ %>
+                             <option value="<%= region._id %>"><%= region.name %></option>
+                        <% }) %>
+                         </select>
+                       </div>
+     
+                     </div>
+                     <div class="col-md-6 mb-4" >
+     
+                       <div class="form-outline">
+                         <label class="form-label select-label" for="status">Status</label>
+                         <select class="select form-control" name="status" id="status" required >
+                           <option value="">Status</option>
+                           <option value="active">active</option>
+                           <option value="Suspend">Suspend</option>
+                         </select>
+                       </div>
+     
+                     </div>
+
+                   </div>
+
+                   <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-6">
+                    <label class="form-label" for="imagess">Images</label>
+                    <input type="file" name="imagess" id="files"  class="form-control" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+                    </div>
+                    <div class="col-md-6">
+                    <label class="form-label" for="floor">recipt image</label>
+                    <input type="file" name="recipt_img" id="files"  class="form-control" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+                    </div>
+                  </div>
+ 
 
 
-
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12 mb-12" style="margin-top: 15px;">
       
                             <div class="form-outline">
@@ -38,11 +86,8 @@
                               <input type="text" id="titles" name="titles" maxlength="150" class="form-control form-control-lg" required/>
                             </div>
                         </div>
-                     </div>
-                      <div class="form-group">
-                        <label for="Descriptionss">Description</label>
-                        <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3" required></textarea>
-                      </div>
+                     </div> -->
+                 
 
 
                     <div class="row">
@@ -87,6 +132,14 @@
       
 
 
+                    <div class="form-group">
+                      <label for="Descriptionss">Description</label>
+                      <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3" required></textarea>
+                    </div>
+                    
+            
+
+<!-- 
                     <div class="row">
                       <div class="col-sm-12 col-md-2">
                           <div class="form-group hand_1">
@@ -123,9 +176,9 @@
                             <div id="uploaded_images_1" class="row"> </div>
                         </div>
                     </div>
-                 </div>
+                 </div> -->
 
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-md-6 mb-4 pb-2">
       
                         <div class="form-outline">
@@ -153,7 +206,7 @@
                           </div>
       
                       </div>
-                    </div>
+                    </div> -->
 
 
                     

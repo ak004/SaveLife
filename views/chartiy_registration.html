@@ -14,126 +14,114 @@
                   <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
                   <form id="register_form" method="POST" action="/charty_item" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-12">
-                          <select class="form-control2 catagories_type" name="catagories_type" id="catagories_type">
+                        <div class="col-md-6">
+                          <div class="form-outline"> 
+                          <label class="form-label select-label" for="catagories_type">Choose Catagory</label>
+                          <select class="select form-control catagories_type" name="catagories_type" id="catagories_type" required>
                             <option value="">Select</option>
                             <% Catagory.forEach(region =>{ %>
                                 <option value="<%= region._id %>"><%= region.type %></option>
                            <% }) %>
                         </select>
-                          <label class="form-label select-label">Choose option</label>
-        
+                      </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-outline">
+                            <label class="form-label" for="titles">Title</label>
+                            <input type="text" id="titles" name="titles" class="form-control form-control-md" required>
+                          </div>
                         </div>
                       </div>
 
 
-                      <div class="form-group">
-                        <label for="Descriptionss">Description</label>
-                        <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3"></textarea>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12 mb-12" style="margin-top: 15px;">
-      
-                            <div class="form-outline">
-                              <label class="form-label" for="titles">Title</label>
-                              <input type="text" id="titles" name="titles" class="form-control form-control-lg" />
-                            </div>
-                        </div>
+                   
 
 
                     <div class="row">
                       <div class="col-md-6 mb-4" style="margin-top: 15px;">
       
                         <div class="form-outline">
-                          <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="current_amount" name="current_amount" required>
                           <label class="form-label" for="firstName">current amount</label>
+                          <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="current_amount" name="current_amount" required>
                         </div>
       
                       </div>
                       <div class="col-md-6 mb-4"style="margin-top: 15px;">
       
                         <div class="form-outline">
-                          <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="amount_needed" name="amount_needed" required>
                           <label class="form-label" for="lastName">amount needed</label>
+                          <input class="form-control txt_err rooms" onkeypress="return isNumberKey(event)" type="text" id="amount_needed" name="amount_needed" required>
                         </div>
       
                       </div>
                     </div>
-      
+
                     <div class="row">
+                      <div class="col-md-6 mb-4"  >
+      
+                        <div class="form-outline">
+                          <label class="form-label" for="enddate">end date</label>
+                          <input class="form-control txt_err rooms"  type="date" id="enddate" name="enddate" required>
+                        </div>
+      
+                      </div>
                       <div class="col-md-6 mb-4" >
       
                         <div class="form-outline">
-                          <input type="date" name="enddate" id="enddate">
-                          <label class="form-label" for="firstName">end date</label>
+                          <label class="form-label select-label" for="lastName">Urgency</label>
+                          <select class="select form-control" name="need_type" id="need_type" required>
+                            <option value="">Select</option>
+                              <option value="2">Urgency</option>
+                              <option value="3">important</option>
+                            </select>
                         </div>
       
                       </div>
-                      <div class="col-md-6 mb-4">
+                    </div>
       
-                        <select class="select form-control-lg need_type " name="need_type" id="need_type" style="width: 350px;">
-                          <option value="">Select</option>
-                            <option value="2">Urgency</option>
-                            <option value="3">important</option>
-                          </select>
-                          <label class="form-label select-label" style="margin-left: 15px;">Urgency</label>
+ 
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-outline">
+                          <label class="form-label" for="floor">Images</label>
+                        <input type="file" name="floor" id="files"  class="form-control" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+                      </div>
                       </div>
                     </div>
 
-
-                    <div class="row">
-                      <div class="col-sm-12 col-md-2">
-                          <div class="form-group hand_1">
-                              <label for="floor" class="label">Floor images</label>
-                              <div class="dropzone hand_1">
-                                  <img src="/images/zupld.png" class="upload-icon hand_1" />
-                                  <input id="files" class="fileupload_1 upload-input" type="file" name="floor" multiple accept=".pdf,.doc,.docx,.jpg,.png" >
-                              </div>
-                              <label class="lbl_err property_img">property image is require</label>
-                          </div>
-                      </div>
-                      <div class="col-sm-12 col-md-10">
-                          <label for="images_1" class="label">uploaded images</label>
-                          <div class="dropzone mdf w-100">
-                              <div id="uploaded_images_1" class="row"> </div>
-                          </div>
-                      </div>
-                   </div>
-      
-                    <div class="row">
-                      <div class="col-md-6 mb-4 pb-2">
+                       <div class="row" style="margin-top: 10px;">
+               
+                       <div class="col-md-6 mb-4" >
       
                         <div class="form-outline">
-                            <select class="select form-control-lg" name="Oraganizations" id="Oraganizations" style="width: 350px;" >
-                                <option value="1">Organizations</option>
-                                <% Oraganizations.forEach(region =>{ %>
-                                  <option value="<%= region._id %>"><%= region.name %></option>
-                             <% }) %>
-                              </select>
-                          <label class="form-label select-label" style="margin-left: 15px;">Oraganization</label>
+                          <label class="form-label select-label" for="Oraganizations">Organization</label>
+                          <select class="select form-control" name="Oraganizations" id="Oraganizations"   required>
+                            <option value="">Organizations</option>
+                            <% Oraganizations.forEach(region =>{ %>
+                              <option value="<%= region._id %>"><%= region.name %></option>
+                         <% }) %>
+                          </select>
                         </div>
       
                       </div>
-                      <div class="col-md-6 mb-4 pb-2">
+                      <div class="col-md-6 mb-4" >
       
-                        <div class="col-md-7 mb-4">
-      
-                            <select class="select form-control-lg" name="status" id="status" style="width: 350px;">
-                                <option value="1">Status</option>
-                                <option value="active">active</option>
-                                <option value="Suspend">Suspend</option>
-                              </select>
-                            <label class="form-label select-label" style="margin-left: 15px;">status</label>
-
-                          </div>
+                        <div class="form-outline">
+                          <label class="form-label select-label" for="status">Status</label>
+                          <select class="select form-control" name="status" id="status" required >
+                            <option value="">Status</option>
+                            <option value="active">active</option>
+                            <option value="Suspend">Suspend</option>
+                          </select>
+                        </div>
       
                       </div>
+
                     </div>
-
-
-                    
-      
-              
+                    <div class="form-group">
+                      <label for="Descriptionss">Description</label>
+                      <textarea class="form-control" id="Descriptionss" name="Descriptionss" rows="3" required></textarea>
+                    </div>
       
                     <div class="mt-4 pt-2">
                       <input class="btn btn-primary btn-lg" type="submit" value="Submit" />

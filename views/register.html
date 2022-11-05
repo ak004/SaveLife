@@ -176,7 +176,7 @@ form {
   border-radius: 0.4em;
   bottom: 0;
   box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.2);
-  height: 280px;
+  height: 330px;
   left: 0;
   margin: auto;
   overflow: hidden;
@@ -501,7 +501,7 @@ input[type="checkbox"]:checked ~ .checkbox {
           <% } %>
         <div class="inset">
           <p>
-            <input type="text" name="name" id="name" placeholder="Organization Name" required>
+            <input type="text" name="name" id="name" placeholder="Name" required>
           </p>
           <p>
             <input type="text" name="email" id="email" placeholder="Email address" required>
@@ -514,12 +514,15 @@ input[type="checkbox"]:checked ~ .checkbox {
           <div style="text-align: center;">
 
           </div>
-          <input class="loginLoginValue" type="hidden" name="service" value="login" />
+          <input class="loginxLoginValue" type="hidden" name="service" value="login" />
         </div>
-        <p class="p-container">
+        <p class="p-container" style="">
           <input type="submit" name="Login" id="go" value="REGISTER">
-          <button type="submit" name="subtmbtn" id="subtmbtn" > Submit</button>
+         
         </p>
+        <a href="/login">
+          <p style="float: right; color:#ffcc00 ; margin-right: 15%; font-size: 15px;">Login</p>
+        </a>
       </form>
       <script>
         $(document).ready(function() {
