@@ -27,7 +27,7 @@ initializePassport(
   }
 );
 // DBs
-const Catagory = require('../Models/catagory.js');
+const Catagory = require('../models/catagory.js');
 const res = require('express/lib/response');
 
 
