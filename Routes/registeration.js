@@ -237,6 +237,7 @@ router.get("/", checkAuthenticated, (req, res) => {
    
   });
   router.get("/organization", (req, res) => {
+    if(req.session.passport != undefined ) {
     var _id = req.session.passport.user
     User.findById(_id).then((uservalue) => {
       var user_typpe = uservalue.type
@@ -259,6 +260,10 @@ router.get("/", checkAuthenticated, (req, res) => {
         })
       }
     });
+  }else {
+    res.redirect("/login");
+  }
+
   });
   
   
