@@ -4,11 +4,14 @@ const session       = require('express-session');
 const mongoose      = require('mongoose');
 const passport      = require("passport");
 const bcrypt        = require('bcrypt');
+const cors = require('cors');
 const bodyParser = require('body-parser')
 var cons = require('consolidate');
 const flash         = require("express-flash");
 const User          = require("./models/User")
 const methodOverride = require("method-override");
+const postRoutes = require('./Routes/posts');
+const userRoutes = require('./Routes/users');
 const Api = require('./Routes/api');
 const RegistrationRoute = require('./Routes/registeration')
 const { checkAuthenticated,
@@ -47,9 +50,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: "40mb",  extended: true }))
+app.use(bodyParser.json({limit: "40mb",  extended: true }));
+app.use(cors());
 //from the laptop me
+app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 app.use('/api', Api)
 app.use(RegistrationRoute)
 
