@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose      = require('mongoose');
 const PostMessage   = require('../models/postMessage'); 
-const auth          = require('../Middleware/authss');  
+const auth          = require('../middleware/authss');  
 
 // import {commentPost, getPost, getPostBySearch, getposts, createPost, updatePost, deletePost, likePost  } from "../controllers/posts.js";
 // import auth from "../Middleware/auth.js";
